@@ -1,8 +1,8 @@
 # Servicio Consumible — Trabajo Grupal TT1 2026
 
-Este proyecto es el trabajo grupal de la asignatura **Taller Transversal I: Programación y Proceso de Información** de la Universidad de La Rioja (curso 25/26). Es un servicio que gestiona solicitudes de simulación de vida artificial basada en autómatas celulares. Los usuarios pueden crear solicitudes, consultar su estado y obtener los resultados una vez procesados. El procesamiento de simulaciones se realiza de forma asíncrona mediante RabbitMQ.
+Este proyecto es el trabajo grupal de la asignatura **Taller Transversal I: Programación y Proceso de Información** de la Universidad de La Rioja (curso 25/26). Es un servicio que gestiona solicitudes de simulación de vida artificial basada en autómatas celulares. Los usuarios pueden crear solicitudes, consultar su estado y obtener los resultados una vez procesados. El procesamiento de simulaciones se realiza de forma asíncrona mediante RabbitMQ y es ejecutado por múltiples workers en paralelo.
 
-**Autores:** 
+**Autores:**
 - Ana Nicolás Lacalzada
 - Lucas Alonso Fernández
 - Clara Hernández Calleja
@@ -22,6 +22,7 @@ Este proyecto es el trabajo grupal de la asignatura **Taller Transversal I: Prog
    - [Solicitud](#solicitud)
    - [Resultados](#resultados)
    - [Email](#email)
+   - [Estadísticas](#estadísticas)
 6. [Documentación JavaDoc](#documentación-javadoc)
 7. [Tests y CI/CD](#tests-y-cicd)
 8. [Estructura del proyecto](#estructura-del-proyecto)
@@ -35,32 +36,71 @@ El servicio implementa una simulación de vida artificial donde distintas especi
 El flujo completo es:
 
 ```
-Cliente → POST /Solicitud/Solicitar → Cola RabbitMQ → SimulationListener → SimulationService → BD
-                                                                                ↓
-Cliente → POST /Resultados ←─────────────────────────────────────────── Resultado guardado
+Cliente → POST /Solicitud/Solicitar → Cola RabbitMQ → SimulationListener (worker) → SimulationService → BD
+                                                                                                ↓
+Cliente → POST /Resultados ←──────────────────────────────────────────────────────── Resultado guardado
 ```
+
+Hay dos modos de simulación seleccionables por variable de entorno:
+
+- **standard** — lógica básica de vida artificial
+- **advanced** — lógica extendida con comportamientos adicionales
 
 ---
 
 ## Arquitectura
 
+El proyecto está dividido en tres módulos Maven:
+
+```
+pom.xml (raíz)
+├── servicio-common/   # Modelos, entidades JPA, repositorios y lógica compartida
+├── servicio-api/      # Aplicación Spring Boot expuesta como API REST
+└── servicio-worker/   # Aplicación Spring Boot consumidora de la cola RabbitMQ
+```
+
+### servicio-common
+
+Librería compartida entre `servicio-api` y `servicio-worker`. No genera ejecutable propio.
+
 ```
 org.trabajott1
-├── api/                  # Interfaces REST y controladores (generados por OpenAPI Generator)
-│   └── impl/             # Implementaciones manuales de los delegates
-├── configuration/        # Configuración de RabbitMQ, Swagger y redirección raíz
-├── domain/
-│   └── dto/              # DTOs auxiliares de adaptación de JSON
-├── model/                # Modelos de entrada/salida de la API (generados por OpenAPI Generator)
-├── persistence/
-│   └── entity/           # Entidades JPA (tablas: solicitudes, entidades_solicitud, resultados)
+├── configuration/        # Configuración de RabbitMQ compartida
+├── model/                # Modelos de entrada/salida de la API y mensajes de cola
+├── persistence/entity/   # Entidades JPA (tablas: solicitudes, entidades_solicitud, resultados, estadisticas_poblacion)
 ├── repository/           # Repositorios Spring Data JPA
-└── service/              # Lógica de negocio
-    ├── SolicitudService      — creación y consulta de solicitudes
-    ├── ResultadosService     — consulta de resultados
-    ├── EmailService          — envío de correos
-    ├── SimulationService     — motor de simulación de vida artificial
-    └── SimulationListener    — consumidor de la cola RabbitMQ
+└── service/
+    └── EstadisticasService   — cálculo y persistencia de estadísticas de simulación
+```
+
+### servicio-api
+
+Aplicación REST. Se conecta a MySQL para persistencia y a RabbitMQ para encolar solicitudes.
+
+```
+org.trabajott1
+├── ApiApplication.java
+├── RFC3339DateFormat.java
+├── api/                  # Interfaces REST y controladores (generados por OpenAPI Generator)
+│   └── impl/             # Implementaciones de los delegates + EstadisticasController
+├── configuration/        # RabbitMQ, Swagger, HomeController
+├── domain/dto/           # DTOs auxiliares
+└── service/              # EmailService, ResultadosService, SolicitudService
+```
+
+### servicio-worker
+
+Aplicación consumidora de la cola. Se despliegan **5 réplicas** en paralelo para procesar simulaciones concurrentemente.
+
+```
+org.trabajott1
+├── WorkerApplication.java
+├── configuration/        # RabbitMQConfig del worker
+└── service/
+    ├── ISimulationService          — interfaz del motor de simulación
+    ├── StandardSimulationService   — lógica básica
+    ├── AdvancedSimulationService   — lógica extendida
+    └── SimulationListener          — consumidor RabbitMQ, selecciona el modo por env var
 ```
 
 **Tecnologías principales:**
@@ -71,7 +111,9 @@ org.trabajott1
 | API REST | Spring MVC + OpenAPI Generator 7.21.0 |
 | Documentación API | SpringDoc / Swagger UI 2.6.0 |
 | Persistencia | Spring Data JPA + Hibernate + MySQL 8 |
-| Mensajería asíncrona | RabbitMQ  |
+| Mensajería asíncrona | RabbitMQ |
+| Build | Maven (multi-módulo) |
+| Contenedores | Docker + Docker Compose |
 
 ---
 
@@ -84,7 +126,7 @@ org.trabajott1
 
 ## Cómo ejecutar con Docker Compose
 
-El `docker-compose.yml` levanta los tres servicios necesarios: la aplicación Spring Boot, MySQL 8 y RabbitMQ. La aplicación espera a que tanto la base de datos como el broker estén sanos antes de arrancar.
+El `docker-compose.yml` levanta cuatro servicios: MySQL 8, RabbitMQ, el API y 5 réplicas del worker. Los servicios de aplicación esperan a que la base de datos y el broker estén sanos antes de arrancar.
 
 ```bash
 docker compose up --build
@@ -98,6 +140,12 @@ Eso es todo. Una vez arrancado:
 | Swagger UI | `http://localhost:8080/swagger-ui.html` |
 | OpenAPI spec (JSON) | `http://localhost:8080/v3/api-docs` |
 | Consola de RabbitMQ | `http://localhost:15672` |
+
+Para cambiar el modo de simulación de los workers (por defecto `standard`):
+
+```bash
+SIMULATION_MODE=advanced docker compose up --build
+```
 
 Para parar y eliminar los contenedores:
 
@@ -193,6 +241,14 @@ tiempo,fila,columna,color
 
 ---
 
+### Estadísticas
+
+| Método | Ruta | Descripción |
+|---|---|---|
+| `GET` | `/Estadisticas` | Devuelve las estadísticas de población de una simulación finalizada |
+
+---
+
 ## Documentación JavaDoc
 
 Todos los paquetes, clases, interfaces, constructores y métodos públicos están documentados con JavaDoc.
@@ -200,7 +256,6 @@ Todos los paquetes, clases, interfaces, constructores y métodos públicos está
 La documentación se publica automáticamente en GitHub Pages al hacer push a la rama `stable`:
 
 **[https://santiagodie.com/life-simulation-service/doc/](https://santiagodie.com/life-simulation-service/doc/)**
-
 
 ---
 
@@ -210,10 +265,10 @@ La documentación se publica automáticamente en GitHub Pages al hacer push a la
 
 | Tipo | Clases | Qué verifica |
 |---|---|---|
-| Unitarios (servicio) | `EmailServiceTest`, `ResultadosServiceTest`, `SolicitudServiceTest`, `SimulationServiceTest`, `SimulationListenerTest` | Validación de parámetros, lógica de negocio, manejo de errores |
+| Unitarios (servicio) | `EmailServiceTest`, `ResultadosServiceTest`, `SolicitudServiceTest`, `SimulationServiceTest`, `SimulationListenerTest`, `AdvancedSimulationServiceTest` | Validación de parámetros, lógica de negocio, manejo de errores |
 | Unitarios (API) | `EmailApiDelegateImplTest`, `ResultadosApiDelegateImplTest`, `SolicitudApiDelegateImplTest` | Códigos HTTP devueltos según el resultado del servicio |
 | Regresión | `SimulationServiceReproductionTest` | Comportamiento del motor de simulación (las células no desaparecen incorrectamente) |
-| Integración | `PersistenceIntegrationTest`, `ServicioTT1ApplicationTests` | Arranque del contexto Spring y flujo completo de persistencia + RabbitMQ |
+| Integración | `PersistenceIntegrationTest` | Flujo completo de persistencia + RabbitMQ |
 
 ### Flujo de ramas y workflows de CI/CD
 
@@ -238,23 +293,29 @@ stable ◄───────────────────────�
 ## Estructura del proyecto
 
 ```
-src/
-├── main/
-│   ├── java/org/trabajott1/
-│   │   ├── ServicioTT1Application.java
-│   │   ├── RFC3339DateFormat.java
-│   │   ├── api/                        # Interfaces y controladores REST
-│   │   │   └── impl/                   # Implementaciones de los delegates
-│   │   ├── configuration/              # RabbitMQ, Swagger, HomeController
-│   │   ├── domain/dto/                 # DTOs auxiliares
-│   │   ├── model/                      # Modelos de la API
-│   │   ├── persistence/entity/         # Entidades JPA
-│   │   ├── repository/                 # Repositorios Spring Data
-│   │   └── service/                    # Lógica de negocio
-│   └── resources/
-│       └── application.properties
-└── test/
-    └── java/org/trabajott1/
-        ├── api/impl/                   # Tests unitarios de los delegates
-        └── service/                    # Tests unitarios y de regresión
+pom.xml                          # POM raíz multi-módulo
+Dockerfile                       # Build multi-stage: target api / target worker
+docker-compose.yml               # MySQL + RabbitMQ + api + 5x worker
+servicio-common/
+└── src/main/java/org/trabajott1/
+    ├── configuration/           # RabbitMQConfig compartida
+    ├── model/                   # Modelos y DTOs de mensajería
+    ├── persistence/entity/      # Entidades JPA
+    ├── repository/              # Repositorios Spring Data
+    └── service/                 # EstadisticasService
+servicio-api/
+├── src/main/java/org/trabajott1/
+│   ├── ApiApplication.java
+│   ├── api/                     # Interfaces y controladores REST
+│   │   └── impl/                # Delegates + EstadisticasController
+│   ├── configuration/           # RabbitMQ, Swagger, HomeController
+│   ├── domain/dto/              # DTOs auxiliares
+│   └── service/                 # EmailService, ResultadosService, SolicitudService
+└── src/test/                    # Tests unitarios e integración del API
+servicio-worker/
+├── src/main/java/org/trabajott1/
+│   ├── WorkerApplication.java
+│   ├── configuration/           # RabbitMQConfig del worker
+│   └── service/                 # SimulationListener, Standard/AdvancedSimulationService
+└── src/test/                    # Tests unitarios del motor de simulación
 ```
