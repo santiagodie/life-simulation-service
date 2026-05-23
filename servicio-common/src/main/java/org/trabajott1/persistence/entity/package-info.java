@@ -9,6 +9,8 @@
  *       almacena las especies participantes y sus cantidades iniciales por solicitud.</li>
  *   <li>{@link org.trabajott1.persistence.entity.ResultadoEntity} — tabla {@code resultados},
  *       almacena los datos de la simulación procesada y la fecha de procesamiento.</li>
+ *   <li>{@link org.trabajott1.persistence.entity.EstadisticaPoblacionEntity} — tabla {@code estadisticas_poblacion},
+ *       almacena los datos estadísticos de población por paso de simulación.</li>
  * </ul>
  *
  * @author Lucas, Ana, Clara, Santiago

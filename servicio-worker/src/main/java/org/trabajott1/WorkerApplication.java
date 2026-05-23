@@ -21,6 +21,11 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
 )
 public class WorkerApplication {
 
+    /**
+     * Punto de entrada de la aplicación. Arranca el contexto de Spring Boot del microservicio Worker.
+     *
+     * @param args argumentos de línea de comandos pasados al arranque de Spring
+     */
     public static void main(String[] args) {
         SpringApplication.run(WorkerApplication.class, args);
     }

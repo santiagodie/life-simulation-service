@@ -224,8 +224,12 @@ public class ProblemDetails {
     }
 
     /**
-     * Set the additional (undeclared) property with the specified name and value.
-     * If the property does not already exist, create it otherwise replace it.
+     * Establece una propiedad adicional (no declarada en el esquema) con el nombre y valor indicados.
+     * Si la propiedad ya existe, su valor es reemplazado.
+     *
+     * @param key   nombre de la propiedad adicional
+     * @param value valor de la propiedad adicional
+     * @return esta misma instancia para encadenamiento de llamadas
      */
     @JsonAnySetter
     public ProblemDetails putAdditionalProperty(String key, Object value) {
@@ -237,7 +241,9 @@ public class ProblemDetails {
     }
 
     /**
-     * Return the additional (undeclared) property.
+     * Devuelve todas las propiedades adicionales (no declaradas en el esquema).
+     *
+     * @return mapa con todas las propiedades adicionales, o {@code null} si no hay ninguna
      */
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
@@ -245,7 +251,10 @@ public class ProblemDetails {
     }
 
     /**
-     * Return the additional (undeclared) property with the specified name.
+     * Devuelve el valor de la propiedad adicional (no declarada en el esquema) con el nombre indicado.
+     *
+     * @param key nombre de la propiedad adicional a recuperar
+     * @return valor de la propiedad, o {@code null} si no existe o no hay propiedades adicionales
      */
     public Object getAdditionalProperty(String key) {
         if (this.additionalProperties == null) {
@@ -292,8 +301,11 @@ public class ProblemDetails {
     }
 
     /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
+     * Convierte el objeto dado a cadena de texto con cada línea indentada 4 espacios
+     * (excepto la primera).
+     *
+     * @param o objeto a convertir; puede ser {@code null}
+     * @return representación en texto del objeto indentada, o {@code "null"} si el objeto es {@code null}
      */
     private String toIndentedString(@Nullable Object o) {
         return o == null ? "null" : o.toString().replace("\n", "\n    ");

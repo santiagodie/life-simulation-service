@@ -63,6 +63,11 @@ public class EmailResponse {
         return done;
     }
 
+    /**
+     * Establece si el correo electrónico se envió correctamente.
+     *
+     * @param done {@code true} si el envío fue exitoso, {@code false} o {@code null} en caso contrario
+     */
     @JsonProperty("done")
     public void setDone(@Nullable Boolean done) {
         this.done = done;
@@ -95,6 +100,11 @@ public class EmailResponse {
         return errorMessage;
     }
 
+    /**
+     * Establece el mensaje de error de la operación de envío.
+     *
+     * @param errorMessage mensaje de error envuelto en {@link org.openapitools.jackson.nullable.JsonNullable}
+     */
     public void setErrorMessage(JsonNullable<String> errorMessage) {
         this.errorMessage = errorMessage;
     }
@@ -128,8 +138,11 @@ public class EmailResponse {
     }
 
     /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
+     * Convierte el objeto dado a cadena de texto con cada línea indentada 4 espacios
+     * (excepto la primera).
+     *
+     * @param o objeto a convertir; puede ser {@code null}
+     * @return representación en texto del objeto indentada, o {@code "null"} si el objeto es {@code null}
      */
     private String toIndentedString(@Nullable Object o) {
         return o == null ? "null" : o.toString().replace("\n", "\n    ");

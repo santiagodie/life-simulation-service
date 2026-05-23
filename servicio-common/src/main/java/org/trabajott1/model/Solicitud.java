@@ -89,6 +89,11 @@ public class Solicitud {
         return cantidadesIniciales;
     }
 
+    /**
+     * Establece la lista de cantidades iniciales de cada entidad.
+     *
+     * @param cantidadesIniciales lista con la cantidad inicial de cada entidad, envuelta en {@link org.openapitools.jackson.nullable.JsonNullable}
+     */
     public void setCantidadesIniciales(JsonNullable<List<Integer>> cantidadesIniciales) {
         this.cantidadesIniciales = cantidadesIniciales;
     }
@@ -137,6 +142,11 @@ public class Solicitud {
         return nombreEntidades;
     }
 
+    /**
+     * Establece la lista de nombres de las entidades participantes en la simulación.
+     *
+     * @param nombreEntidades lista con los nombres de las entidades, envuelta en {@link org.openapitools.jackson.nullable.JsonNullable}
+     */
     public void setNombreEntidades(JsonNullable<List<String>> nombreEntidades) {
         this.nombreEntidades = nombreEntidades;
     }
@@ -170,8 +180,11 @@ public class Solicitud {
     }
 
     /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
+     * Convierte el objeto dado a cadena de texto con cada línea indentada 4 espacios
+     * (excepto la primera).
+     *
+     * @param o objeto a convertir; puede ser {@code null}
+     * @return representación en texto del objeto indentada, o {@code "null"} si el objeto es {@code null}
      */
     private String toIndentedString(@Nullable Object o) {
         return o == null ? "null" : o.toString().replace("\n", "\n    ");

@@ -6,6 +6,8 @@
  * <ul>
  *   <li>{@link org.trabajott1.repository.SolicitudRepository} — búsqueda por token y por usuario.</li>
  *   <li>{@link org.trabajott1.repository.ResultadoRepository} — búsqueda por token de solicitud.</li>
+ *   <li>{@link org.trabajott1.repository.EntidadSolicitudRepository} — búsqueda de entidades por solicitud.</li>
+ *   <li>{@link org.trabajott1.repository.EstadisticaPoblacionRepository} — búsqueda de estadísticas por token de solicitud.</li>
  * </ul>
  *
  * @author Lucas, Ana, Clara, Santiago
