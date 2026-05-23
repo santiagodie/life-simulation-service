@@ -78,6 +78,8 @@ public class StandardSimulationService implements ISimulationService {
 
     /** Repositorio para buscar y guardar las solicitudes de simulación en la base de datos. */
     private final SolicitudRepository solicitudRepository;
+
+    /** Repositorio para persistir las estadísticas de población generadas en cada paso de tiempo. */
     private final EstadisticaPoblacionRepository estadisticaPoblacionRepository;
 
     /**

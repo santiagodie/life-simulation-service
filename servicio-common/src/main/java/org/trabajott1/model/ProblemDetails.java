@@ -41,10 +41,26 @@ public class ProblemDetails {
     /** Propiedades adicionales no declaradas explícitamente en el esquema de la API. */
     private Map<String, Object> additionalProperties;
 
+    /**
+     * Compara dos valores {@link JsonNullable} considerando iguales solo los pares en que ambos están presentes
+     * y sus contenidos son profundamente iguales.
+     *
+     * @param <T> tipo del valor envuelto
+     * @param a   primer valor nullable
+     * @param b   segundo valor nullable
+     * @return {@code true} si ambos están presentes y sus contenidos son iguales, o si son la misma referencia
+     */
     private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
         return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
     }
 
+    /**
+     * Calcula el hash code de un valor {@link JsonNullable}.
+     *
+     * @param <T> tipo del valor envuelto
+     * @param a   valor nullable del que se calcula el hash
+     * @return hash basado en el contenido si está presente, {@code 31} si está vacío, o {@code 1} si es {@code null}
+     */
     private static <T> int hashCodeNullable(JsonNullable<T> a) {
         if (a == null) {
             return 1;
@@ -52,107 +68,157 @@ public class ProblemDetails {
         return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
     }
 
+    /**
+     * Establece el campo {@code type} usando la API fluida del builder.
+     *
+     * @param type URI que identifica el tipo de problema
+     * @return esta misma instancia para encadenar llamadas
+     */
     public ProblemDetails type(String type) {
         this.type = JsonNullable.of(type);
         return this;
     }
 
     /**
-     * Get type
+     * Obtiene la URI que identifica el tipo de problema.
      *
-     * @return type
+     * @return URI del tipo de problema envuelta en {@link JsonNullable}
      */
-
     @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty("type")
     public JsonNullable<String> getType() {
         return type;
     }
 
+    /**
+     * Establece la URI que identifica el tipo de problema.
+     *
+     * @param type URI del tipo de problema
+     */
     public void setType(JsonNullable<String> type) {
         this.type = type;
     }
 
+    /**
+     * Establece el campo {@code title} usando la API fluida del builder.
+     *
+     * @param title resumen breve del tipo de problema
+     * @return esta misma instancia para encadenar llamadas
+     */
     public ProblemDetails title(String title) {
         this.title = JsonNullable.of(title);
         return this;
     }
 
     /**
-     * Get title
+     * Obtiene el resumen breve del tipo de problema.
      *
-     * @return title
+     * @return título del problema envuelto en {@link JsonNullable}
      */
-
     @Schema(name = "title", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty("title")
     public JsonNullable<String> getTitle() {
         return title;
     }
 
+    /**
+     * Establece el resumen breve del tipo de problema.
+     *
+     * @param title título del problema
+     */
     public void setTitle(JsonNullable<String> title) {
         this.title = title;
     }
 
+    /**
+     * Establece el campo {@code status} usando la API fluida del builder.
+     *
+     * @param status código de estado HTTP asociado al problema
+     * @return esta misma instancia para encadenar llamadas
+     */
     public ProblemDetails status(Integer status) {
         this.status = JsonNullable.of(status);
         return this;
     }
 
     /**
-     * Get status
+     * Obtiene el código de estado HTTP asociado al problema.
      *
-     * @return status
+     * @return código de estado HTTP envuelto en {@link JsonNullable}
      */
-
     @Schema(name = "status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty("status")
     public JsonNullable<Integer> getStatus() {
         return status;
     }
 
+    /**
+     * Establece el código de estado HTTP asociado al problema.
+     *
+     * @param status código de estado HTTP
+     */
     public void setStatus(JsonNullable<Integer> status) {
         this.status = status;
     }
 
+    /**
+     * Establece el campo {@code detail} usando la API fluida del builder.
+     *
+     * @param detail explicación detallada del problema concreto
+     * @return esta misma instancia para encadenar llamadas
+     */
     public ProblemDetails detail(String detail) {
         this.detail = JsonNullable.of(detail);
         return this;
     }
 
     /**
-     * Get detail
+     * Obtiene la explicación detallada del problema concreto que ha ocurrido.
      *
-     * @return detail
+     * @return detalle del problema envuelto en {@link JsonNullable}
      */
-
     @Schema(name = "detail", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty("detail")
     public JsonNullable<String> getDetail() {
         return detail;
     }
 
+    /**
+     * Establece la explicación detallada del problema concreto.
+     *
+     * @param detail descripción del problema
+     */
     public void setDetail(JsonNullable<String> detail) {
         this.detail = detail;
     }
 
+    /**
+     * Establece el campo {@code instance} usando la API fluida del builder.
+     *
+     * @param instance URI que identifica la instancia específica donde ocurrió el problema
+     * @return esta misma instancia para encadenar llamadas
+     */
     public ProblemDetails instance(String instance) {
         this.instance = JsonNullable.of(instance);
         return this;
     }
 
     /**
-     * Get instance
+     * Obtiene la URI que identifica la instancia específica donde ocurrió el problema.
      *
-     * @return instance
+     * @return URI de instancia envuelta en {@link JsonNullable}
      */
-
     @Schema(name = "instance", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty("instance")
     public JsonNullable<String> getInstance() {
         return instance;
     }
 
+    /**
+     * Establece la URI que identifica la instancia específica donde ocurrió el problema.
+     *
+     * @param instance URI de la instancia
+     */
     public void setInstance(JsonNullable<String> instance) {
         this.instance = instance;
     }
