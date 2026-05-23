@@ -42,88 +42,129 @@ public class SolicitudResponse {
         return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
     }
 
+    /**
+     * Establece el estado de la operación usando el patrón builder.
+     *
+     * @param done {@code true} si la creación fue exitosa, {@code false} o {@code null} en caso contrario
+     * @return esta misma instancia para encadenamiento de llamadas
+     */
     public SolicitudResponse done(@Nullable Boolean done) {
         this.done = done;
         return this;
     }
 
     /**
-     * Get done
+     * Indica si la solicitud de simulación se creó correctamente.
      *
-     * @return done
+     * @return {@code true} si la creación fue exitosa, {@code false} o {@code null} en caso contrario
      */
-
     @Schema(name = "done", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty("done")
     public @Nullable Boolean getDone() {
         return done;
     }
 
+    /**
+     * Establece si la solicitud de simulación se creó correctamente.
+     *
+     * @param done {@code true} si la creación fue exitosa, {@code false} o {@code null} en caso contrario
+     */
     @JsonProperty("done")
     public void setDone(@Nullable Boolean done) {
         this.done = done;
     }
 
+    /**
+     * Establece el token de la solicitud usando el patrón builder.
+     *
+     * @param tokenSolicitud token único asignado a la solicitud recién creada
+     * @return esta misma instancia para encadenamiento de llamadas
+     */
     public SolicitudResponse tokenSolicitud(@Nullable Integer tokenSolicitud) {
         this.tokenSolicitud = tokenSolicitud;
         return this;
     }
 
     /**
-     * Get tokenSolicitud
+     * Devuelve el token único asignado a la solicitud de simulación recién creada.
      *
-     * @return tokenSolicitud
+     * @return token de la solicitud, o {@code null} si aún no ha sido asignado
      */
-
     @Schema(name = "tokenSolicitud", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty("tokenSolicitud")
     public @Nullable Integer getTokenSolicitud() {
         return tokenSolicitud;
     }
 
+    /**
+     * Establece el token único de la solicitud de simulación.
+     *
+     * @param tokenSolicitud token asignado a la solicitud
+     */
     @JsonProperty("tokenSolicitud")
     public void setTokenSolicitud(@Nullable Integer tokenSolicitud) {
         this.tokenSolicitud = tokenSolicitud;
     }
 
+    /**
+     * Establece el mensaje de error usando el patrón builder.
+     *
+     * @param errorMessage mensaje de error a incluir en la respuesta
+     * @return esta misma instancia para encadenamiento de llamadas
+     */
     public SolicitudResponse errorMessage(String errorMessage) {
         this.errorMessage = JsonNullable.of(errorMessage);
         return this;
     }
 
     /**
-     * Get errorMessage
+     * Devuelve el mensaje de error de la operación, si hubo alguno.
      *
-     * @return errorMessage
+     * @return mensaje de error envuelto en {@link org.openapitools.jackson.nullable.JsonNullable},
+     *         o no presente si la operación fue exitosa
      */
-
     @Schema(name = "errorMessage", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty("errorMessage")
     public JsonNullable<String> getErrorMessage() {
         return errorMessage;
     }
 
+    /**
+     * Establece el mensaje de error de la operación.
+     *
+     * @param errorMessage mensaje de error envuelto en {@link org.openapitools.jackson.nullable.JsonNullable}
+     */
     public void setErrorMessage(JsonNullable<String> errorMessage) {
         this.errorMessage = errorMessage;
     }
 
+    /**
+     * Establece el dato de confirmación usando el patrón builder.
+     *
+     * @param data dato adicional de confirmación de la operación
+     * @return esta misma instancia para encadenamiento de llamadas
+     */
     public SolicitudResponse data(@Nullable Boolean data) {
         this.data = data;
         return this;
     }
 
     /**
-     * Get data
+     * Devuelve el dato adicional de confirmación de la operación.
      *
-     * @return data
+     * @return {@code true} si la operación incluye confirmación adicional, {@code false} o {@code null} en caso contrario
      */
-
     @Schema(name = "data", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty("data")
     public @Nullable Boolean getData() {
         return data;
     }
 
+    /**
+     * Establece el dato adicional de confirmación de la operación.
+     *
+     * @param data dato de confirmación
+     */
     @JsonProperty("data")
     public void setData(@Nullable Boolean data) {
         this.data = data;
@@ -162,8 +203,11 @@ public class SolicitudResponse {
     }
 
     /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
+     * Convierte el objeto dado a cadena de texto con cada línea indentada 4 espacios
+     * (excepto la primera).
+     *
+     * @param o objeto a convertir; puede ser {@code null}
+     * @return representación en texto del objeto indentada, o {@code "null"} si el objeto es {@code null}
      */
     private String toIndentedString(@Nullable Object o) {
         return o == null ? "null" : o.toString().replace("\n", "\n    ");
