@@ -122,6 +122,19 @@ org.trabajott1
 - **Docker** y **Docker Compose** instalados
 - Java 21 y Maven (solo son necesarios para ejecutar los tests o generar el JavaDoc localmente)
 
+### Esquema de base de datos
+
+El fichero `init.sql` en la raíz del proyecto inicializa automáticamente el esquema de MySQL al arrancar el contenedor. Crea cuatro tablas:
+
+| Tabla | Descripción |
+|---|---|
+| `solicitudes` | Una fila por solicitud; almacena usuario, token, estado y fechas |
+| `entidades_solicitud` | Entidades (especies) asociadas a cada solicitud con sus cantidades iniciales |
+| `resultados` | Resultado serializado de la simulación (relación 1:1 con `solicitudes`) |
+| `estadisticas_poblacion` | Población por color y paso de tiempo de cada simulación |
+
+Docker Compose monta este fichero automáticamente — no es necesario ejecutarlo a mano.
+
 ---
 
 ## Cómo ejecutar con Docker Compose
@@ -326,10 +339,21 @@ La documentación se publica automáticamente en GitHub Pages al hacer push a la
 
 | Tipo | Clases | Qué verifica |
 |---|---|---|
-| Unitarios (servicio) | `EmailServiceTest`, `ResultadosServiceTest`, `SolicitudServiceTest`, `SimulationServiceTest`, `SimulationListenerTest`, `AdvancedSimulationServiceTest` | Validación de parámetros, lógica de negocio, manejo de errores |
-| Unitarios (API) | `EmailApiDelegateImplTest`, `ResultadosApiDelegateImplTest`, `SolicitudApiDelegateImplTest` | Códigos HTTP devueltos según el resultado del servicio |
-| Regresión | `SimulationServiceReproductionTest` | Comportamiento del motor de simulación (las células no desaparecen incorrectamente) |
+| Unitarios (servicio) | `EmailServiceTest`, `EmailServiceExtendedTest`, `ResultadosServiceTest`, `ResultadosServiceExtendedTest`, `SolicitudServiceTest`, `SolicitudServiceExtendedTest`, `SimulationServiceTest`, `SimulationListenerTest`, `SimulationListenerExtendedTest`, `AdvancedSimulationServiceTest`, `AdvancedSimulationServiceFlowTest`, `EstadisticasServiceTest` | Validación de parámetros, lógica de negocio, manejo de errores |
+| Unitarios (API) | `EmailApiDelegateImplTest`, `ResultadosApiDelegateImplTest`, `SolicitudApiDelegateImplTest`, `EstadisticasControllerTest`, `DashboardControllerTest`, `HomeControllerTest` | Códigos HTTP devueltos según el resultado del servicio |
+| Unitarios (modelo) | `SolicitudDeserializerTest`, `SolicitudEntityTest` | Deserialización y comportamiento de entidades del modelo |
+| Regresión | `SimulationServiceReproductionTest`, `StandardSimulationServiceBorderTest` | Comportamiento del motor de simulación (las células no desaparecen incorrectamente, casos límite de borde) |
 | Integración | `PersistenceIntegrationTest` | Flujo completo de persistencia + RabbitMQ |
+
+### Script de stress test
+
+El script `stressTest.sh` en la raíz del proyecto lanza 100 solicitudes en paralelo contra la API local para comprobar el comportamiento del sistema bajo carga. Cada solicitud genera entre 2 y 6 entidades con cantidades aleatorias.
+
+```bash
+chmod +x stressTest.sh && ./stressTest.sh
+```
+
+Requiere que la API esté corriendo en `http://localhost:8080` (por ejemplo con `docker compose up`).
 
 ### Flujo de ramas y workflows de CI/CD
 
@@ -357,6 +381,8 @@ stable ◄───────────────────────�
 pom.xml                          # POM raíz multi-módulo
 Dockerfile                       # Build multi-stage: target api / target worker
 docker-compose.yml               # MySQL + RabbitMQ + api + 5x worker
+init.sql                         # Esquema inicial de MySQL (montado automáticamente por Docker)
+stressTest.sh                    # Script de stress test: 100 solicitudes en paralelo
 servicio-common/
 └── src/main/java/org/trabajott1/
     ├── configuration/           # RabbitMQConfig compartida
@@ -368,7 +394,7 @@ servicio-api/
 ├── src/main/java/org/trabajott1/
 │   ├── ApiApplication.java
 │   ├── api/                     # Interfaces y controladores REST
-│   │   └── impl/                # Delegates + EstadisticasController
+│   │   └── impl/                # Delegates + EstadisticasController + DashboardController
 │   ├── configuration/           # RabbitMQ, Swagger, HomeController
 │   ├── domain/dto/              # DTOs auxiliares
 │   └── service/                 # EmailService, ResultadosService, SolicitudService
