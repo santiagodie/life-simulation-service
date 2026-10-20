@@ -10,6 +10,7 @@ import org.trabajott1.persistence.entity.EstadisticaPoblacionEntity;
 import org.trabajott1.persistence.entity.SolicitudEntity;
 import org.trabajott1.repository.EntidadSolicitudRepository;
 import org.trabajott1.repository.EstadisticaPoblacionRepository;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 
@@ -101,7 +102,7 @@ class EstadisticasServiceTest {
      * Blue: 5 → 3 → 8    (incremento=5, decremento=2)
      * Último paso: red=15, blue=8 → dominante=red
      * Más reproducido: red (delta +10 > blue +5)
-     * Más disminuido: red (delta -5 > blue -2) → depredador de red = yellow
+     * Más depredador (standard): red come blue, que bajó 2; blue come green, que no está → red
      *
      * @author Lucas, Ana, Clara, Santiago
      * @version 1.0
@@ -142,8 +143,8 @@ class EstadisticasServiceTest {
         // Red tuvo el mayor incremento acumulado
         assertEquals("red", result.colorMasReproducido());
 
-        // Red fue la que más disminuyó → su depredador es yellow
-        assertEquals("yellow", result.colorMasComio());
+        // Red es el único depredador de una presa presente (blue)
+        assertEquals("red", result.colorMasComio());
 
         // En el paso 2: red=15 > blue=8
         assertEquals("red", result.colorMasDominante());
@@ -172,8 +173,8 @@ class EstadisticasServiceTest {
         assertTrue(result.done());
         assertEquals("green", result.colorMasReproducido());
         assertEquals("green", result.colorMasDominante());
-        // green es el más disminuido → su depredador es blue
-        assertEquals("blue", result.colorMasComio());
+        // Sin depredadores presentes nadie pudo comer
+        assertNull(result.colorMasComio());
     }
 
     // --- Valores extremos en totalIncrementos / totalDecrementos ---
@@ -207,7 +208,7 @@ class EstadisticasServiceTest {
     /**
      * Verifica que una población en caída constante (solo decrementos, ningún incremento)
      * se procesa correctamente: colorMasReproducido sigue siendo el único color,
-     * colorMasComio es su depredador definido en DEPREDADOR_DE.
+     * colorMasComio es nulo porque su depredador (red) no participa.
      *
      * @author Lucas, Ana, Clara, Santiago
      * @version 1.0
@@ -228,8 +229,8 @@ class EstadisticasServiceTest {
         assertTrue(result.done());
         // Ningún delta positivo → incremento = 0, pero el único color gana
         assertEquals("blue", result.colorMasReproducido());
-        // blue decrementó → su depredador es red
-        assertEquals("red", result.colorMasComio());
+        // blue decrementó, pero su depredador (red) no está en la simulación
+        assertNull(result.colorMasComio());
         // Dominante en el último paso
         assertEquals("blue", result.colorMasDominante());
     }
@@ -254,5 +255,75 @@ class EstadisticasServiceTest {
 
         // No debe lanzar excepción
         assertDoesNotThrow(() -> estadisticasService.obtenerEstadisticas(tok));
+    }
+
+    // --- Depredadores según el modo ---
+
+    private List<EntidadSolicitudEntity> seisEntidades() {
+        return List.of(entidad("A"), entidad("B"), entidad("C"), entidad("D"), entidad("E"), entidad("F"));
+    }
+
+    /**
+     * Verifica que en el modo standard purple es depredador de red (cadena circular).
+     */
+    @Test
+    void obtenerEstadisticas_Standard_PurpleEatsRed() {
+        int tok = 55555;
+        List<EstadisticaPoblacionEntity> stats = List.of(
+            stat(0, "red", 10), stat(1, "red", 4),
+            stat(0, "orange", 5), stat(1, "orange", 4),
+            stat(0, "purple", 5), stat(1, "purple", 8)
+        );
+        when(estadisticaRepo.findBySolicitud_TokenSolicitud(tok)).thenReturn(stats);
+        when(entidadRepo.findBySolicitud_TokenSolicitudOrderByIdAsc(tok)).thenReturn(seisEntidades());
+
+        EstadisticasService.EstadisticasResponse result = estadisticasService.obtenerEstadisticas(tok);
+
+        // red bajó 6 (presa de purple) y orange bajó 1 (presa de yellow)
+        assertEquals("purple", result.colorMasComio());
+    }
+
+    /**
+     * Verifica que en el modo advanced yellow tiene dos depredadores (blue y green)
+     * y su reducción se reparte entre ambos.
+     */
+    @Test
+    void obtenerEstadisticas_Advanced_YellowSharedBetweenBlueAndGreen() {
+        ReflectionTestUtils.setField(estadisticasService, "simulationMode", "advanced");
+        int tok = 66666;
+        List<EstadisticaPoblacionEntity> stats = List.of(
+            stat(0, "blue", 10), stat(1, "blue", 8),
+            stat(0, "green", 10), stat(1, "green", 10),
+            stat(0, "yellow", 10), stat(1, "yellow", 2)
+        );
+        when(estadisticaRepo.findBySolicitud_TokenSolicitud(tok)).thenReturn(stats);
+        when(entidadRepo.findBySolicitud_TokenSolicitudOrderByIdAsc(tok))
+            .thenReturn(List.of(entidad("A"), entidad("B"), entidad("C"), entidad("D")));
+
+        EstadisticasService.EstadisticasResponse result = estadisticasService.obtenerEstadisticas(tok);
+
+        // red: blue bajó 2 → 2; blue y green: yellow bajó 8, a repartir → 4 cada uno
+        assertEquals("blue", result.colorMasComio());
+    }
+
+    /**
+     * Verifica que en el modo advanced red, orange y purple no son presa de nadie:
+     * si solo bajan ellos, nadie comió.
+     */
+    @Test
+    void obtenerEstadisticas_Advanced_NonPreyDecreaseMeansNoPredator() {
+        ReflectionTestUtils.setField(estadisticasService, "simulationMode", "advanced");
+        int tok = 77777;
+        List<EstadisticaPoblacionEntity> stats = List.of(
+            stat(0, "red", 10), stat(1, "red", 7),
+            stat(0, "orange", 10), stat(1, "orange", 9),
+            stat(0, "purple", 10), stat(1, "purple", 9)
+        );
+        when(estadisticaRepo.findBySolicitud_TokenSolicitud(tok)).thenReturn(stats);
+        when(entidadRepo.findBySolicitud_TokenSolicitudOrderByIdAsc(tok)).thenReturn(seisEntidades());
+
+        EstadisticasService.EstadisticasResponse result = estadisticasService.obtenerEstadisticas(tok);
+
+        assertNull(result.colorMasComio());
     }
 }

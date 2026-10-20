@@ -4,6 +4,7 @@ import org.trabajott1.persistence.entity.EntidadSolicitudEntity;
 import org.trabajott1.persistence.entity.EstadisticaPoblacionEntity;
 import org.trabajott1.repository.EntidadSolicitudRepository;
 import org.trabajott1.repository.EstadisticaPoblacionRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -22,13 +23,32 @@ public class EstadisticasService {
     /** Colores asignados a las entidades en orden de aparición. */
     private static final String[] COLORS = {"red", "blue", "green", "yellow", "orange", "purple"};
 
-    /** Cadena alimentaria estándar: mapea cada color a su depredador directo. */
-    private static final Map<String, String> DEPREDADOR_DE = Map.of(
-        "blue",   "red",
-        "green",  "blue",
-        "yellow", "green",
-        "red",    "yellow"
+    /**
+     * Presas de cada color en el modo standard (StandardSimulationService.canEat):
+     * cada color come al siguiente de la lista, de forma circular.
+     */
+    private static final Map<String, List<String>> PRESAS_STANDARD = Map.of(
+        "red",    List.of("blue"),
+        "blue",   List.of("green"),
+        "green",  List.of("yellow"),
+        "yellow", List.of("orange"),
+        "orange", List.of("purple"),
+        "purple", List.of("red")
     );
+
+    /**
+     * Presas de cada color en el modo advanced (AdvancedSimulationService.canEat):
+     * red come blue y green, blue y green comen yellow; yellow, orange y purple no comen.
+     */
+    private static final Map<String, List<String>> PRESAS_ADVANCED = Map.of(
+        "red",   List.of("blue", "green"),
+        "blue",  List.of("yellow"),
+        "green", List.of("yellow")
+    );
+
+    /** Modo de simulación activo (standard | advanced), el mismo que usa el worker. */
+    @Value("${simulation.mode:standard}")
+    private String simulationMode = "standard";
 
     /** Repositorio para acceder a los registros de estadísticas de población. */
     private final EstadisticaPoblacionRepository estadisticaRepo;
@@ -90,12 +110,10 @@ public class EstadisticasService {
             .max(Comparator.comparingInt(e -> totalIncrementos(e.getValue())))
             .map(Map.Entry::getKey).orElse(null);
 
-        // Color que más comió: depredador del color que más disminuyó
-        String masDisminuido = porColor.entrySet().stream()
-            .max(Comparator.comparingInt(e -> totalDecrementos(e.getValue())))
-            .map(Map.Entry::getKey).orElse(null);
-        String masComio = masDisminuido != null
-            ? DEPREDADOR_DE.getOrDefault(masDisminuido, "desconocido") : null;
+        // Color que más comió: el que acumula más reducción de sus presas presentes
+        Set<String> presentes = new HashSet<>();
+        for (EntidadDto e : entidades) presentes.add(e.color());
+        String masComio = colorQueMasComio(porColor, presentes);
 
         // Color dominante al final: mayor cantidad en el último paso
         int ultimoPaso = stats.stream()
@@ -107,6 +125,40 @@ public class EstadisticasService {
 
         return new EstadisticasResponse(true, null, tok, entidades, poblacion,
                                         masReproducido, masComio, masDominante);
+    }
+
+    /**
+     * Estima qué color comió más a partir de la reducción de población de sus presas, según las
+     * reglas del modo activo. Solo cuentan los depredadores y presas presentes en la simulación;
+     * si una presa tiene varios depredadores presentes, su reducción se reparte entre ellos.
+     *
+     * @param porColor  registros de estadística agrupados por color
+     * @param presentes colores de las entidades que participan en la simulación
+     * @return el color con mayor reducción atribuida, o {@code null} si ningún color pudo comer
+     */
+    private String colorQueMasComio(Map<String, List<EstadisticaPoblacionEntity>> porColor,
+                                    Set<String> presentes) {
+        Map<String, List<String>> presas =
+            "advanced".equals(simulationMode) ? PRESAS_ADVANCED : PRESAS_STANDARD;
+
+        String mejor = null;
+        double mejorPuntuacion = 0;
+        for (String depredador : COLORS) {
+            if (!presentes.contains(depredador)) continue;
+            double puntuacion = 0;
+            for (String presa : presas.getOrDefault(depredador, List.of())) {
+                if (!presentes.contains(presa) || !porColor.containsKey(presa)) continue;
+                long depredadoresPresentes = presas.entrySet().stream()
+                    .filter(e -> presentes.contains(e.getKey()) && e.getValue().contains(presa))
+                    .count();
+                puntuacion += (double) totalDecrementos(porColor.get(presa)) / depredadoresPresentes;
+            }
+            if (puntuacion > mejorPuntuacion) {
+                mejor = depredador;
+                mejorPuntuacion = puntuacion;
+            }
+        }
+        return mejor;
     }
 
     /**

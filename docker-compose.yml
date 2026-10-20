@@ -55,6 +55,7 @@ services:
       SPRING_RABBITMQ_PORT: 5672
       SPRING_RABBITMQ_USERNAME: guest
       SPRING_RABBITMQ_PASSWORD: guest
+      SIMULATION_MODE: ${SIMULATION_MODE:-standard}
     depends_on:
       mysql:
         condition: service_healthy
@@ -76,7 +77,7 @@ services:
       SPRING_RABBITMQ_PORT: 5672
       SPRING_RABBITMQ_USERNAME: guest
       SPRING_RABBITMQ_PASSWORD: guest
-      SIMULATION_MODE: standard
+      SIMULATION_MODE: ${SIMULATION_MODE:-standard}
     deploy:
       replicas: 5
     depends_on:
