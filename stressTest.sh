@@ -16,7 +16,7 @@ for i in $(seq 1 100); do
   NOMBRES+=']'
   BODY="{\"cantidadesIniciales\":$CANTIDADES,\"nombreEntidades\":$NOMBRES}"
   echo "Enviando $NUMENTIDADES entidades: $BODY"
-  curl -s -X POST "http://localhost:8080/Solicitud/Solicitar?nombreUsuario=sadie27" \
+  curl -s -X POST "http://localhost:8080/Solicitud/Solicitar?nombreUsuario=santiagodie" \
     -H "Content-Type: application/json" -d "$BODY" &
 done
 wait
