@@ -1,0 +1,2764 @@
+{
+ "recordedAt": "2026-10-20T21:39:01.664Z",
+ "baseUrl": "http://localhost:18080",
+ "mode": "advanced",
+ "simulations": [
+  {
+   "mode": "advanced",
+   "params": {
+    "names": [
+     "Servidores",
+     "Clientes",
+     "Bases de datos"
+    ],
+    "quantities": [
+     5,
+     5,
+     5
+    ]
+   },
+   "solicitar": {
+    "request": {
+     "method": "POST",
+     "url": "/Solicitud/Solicitar?nombreUsuario=demo",
+     "body": {
+      "solicitud": {
+       "cantidadesIniciales": [
+        5,
+        5,
+        5
+       ],
+       "nombreEntidades": [
+        "Servidores",
+        "Clientes",
+        "Bases de datos"
+       ]
+      }
+     }
+    },
+    "status": 201,
+    "response": {
+     "done": true,
+     "tokenSolicitud": 72446,
+     "errorMessage": null,
+     "data": true
+    }
+   },
+   "comprobar": {
+    "request": {
+     "method": "GET",
+     "url": "/Solicitud/ComprobarSolicitud?nombreUsuario=demo&tok=72446",
+     "body": null
+    },
+    "status": 200,
+    "response": [
+     1,
+     0
+    ]
+   },
+   "resultados": {
+    "request": {
+     "method": "POST",
+     "url": "/Resultados?nombreUsuario=demo&tok=72446",
+     "body": null
+    },
+    "status": 201,
+    "response": {
+     "done": true,
+     "tokenSolicitud": 72446,
+     "errorMessage": null,
+     "data": "8\n0,2,1,red\n0,1,2,red\n0,6,6,red\n0,1,7,red\n0,1,4,red\n0,6,7,blue\n0,1,0,blue\n0,0,4,blue\n0,5,7,blue\n0,3,0,blue\n0,7,7,green\n0,0,1,green\n0,7,3,green\n0,3,2,green\n0,4,0,green\n1,0,0,blue\n1,0,3,red\n1,0,4,blue\n1,1,2,green\n1,1,3,red\n1,1,7,red\n1,2,0,blue\n1,2,1,red\n1,3,0,green\n1,3,1,green\n1,5,6,blue\n1,6,2,green\n1,6,7,red\n1,7,6,blue\n1,7,7,green\n2,0,1,blue\n2,0,3,red\n2,1,0,red\n2,1,1,blue\n2,1,4,red\n2,1,7,red\n2,2,0,green\n2,4,0,green\n2,5,5,blue\n2,6,3,green\n2,6,6,blue\n2,7,6,red\n2,7,7,green\n3,0,0,blue\n3,0,3,red\n3,1,0,red\n3,1,2,red\n3,1,6,red\n3,4,0,green\n3,5,3,green\n3,6,5,red\n3,6,6,blue\n3,7,7,green\n4,0,1,blue\n4,0,3,red\n4,1,2,red\n4,1,3,red\n4,1,5,red\n4,2,0,red\n4,4,0,green\n4,4,2,green\n4,5,4,red\n4,5,5,blue\n4,7,7,green\n5,0,3,red\n5,0,4,red\n5,1,2,blue\n5,1,3,red\n5,2,4,red\n5,3,0,red\n5,3,3,green\n5,4,5,red\n5,5,5,blue\n5,7,7,green\n6,0,3,blue\n6,0,4,red\n6,1,3,red\n6,1,4,red\n6,1,5,red\n6,2,0,red\n6,3,4,red\n6,4,3,green\n6,4,5,blue\n6,7,7,green\n7,0,4,red\n7,1,4,red\n7,1,5,red\n7,1,6,red\n7,3,0,red\n7,3,4,green\n7,3,6,blue\n7,4,4,red\n7,6,7,green\n8,0,4,red\n8,1,4,red\n8,1,6,red\n8,2,6,red\n8,3,4,green\n8,4,1,red\n8,4,6,blue\n8,5,4,red\n8,7,7,green\n9,0,3,red\n9,1,6,red\n9,2,4,red\n9,2,6,red\n9,3,4,green\n9,5,1,red\n9,5,3,red\n9,5,6,blue\n9,7,6,green\n10,1,3,red\n10,1,7,red\n10,2,3,green\n10,3,5,red\n10,3,7,red\n10,5,1,red\n10,5,7,blue\n10,6,4,red\n10,7,6,green\n"
+    }
+   },
+   "estadisticas": {
+    "request": {
+     "method": "GET",
+     "url": "/Estadisticas?tok=72446",
+     "body": null
+    },
+    "status": 200,
+    "response": {
+     "done": true,
+     "errorMessage": null,
+     "tokenSolicitud": 72446,
+     "entidades": [
+      {
+       "nombre": "Servidores",
+       "color": "red"
+      },
+      {
+       "nombre": "Clientes",
+       "color": "blue"
+      },
+      {
+       "nombre": "Bases de datos",
+       "color": "green"
+      }
+     ],
+     "poblacionPorPaso": [
+      {
+       "pasoTiempo": 0,
+       "color": "blue",
+       "cantidad": 5
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "green",
+       "cantidad": 5
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "red",
+       "cantidad": 5
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "blue",
+       "cantidad": 5
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "green",
+       "cantidad": 5
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "red",
+       "cantidad": 5
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "blue",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "green",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "red",
+       "cantidad": 5
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "blue",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "green",
+       "cantidad": 3
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "red",
+       "cantidad": 5
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "blue",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "green",
+       "cantidad": 3
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "red",
+       "cantidad": 6
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "blue",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "green",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "red",
+       "cantidad": 6
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "blue",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "green",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "red",
+       "cantidad": 6
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "blue",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "green",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "red",
+       "cantidad": 6
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "blue",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "green",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "red",
+       "cantidad": 6
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "blue",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "green",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "red",
+       "cantidad": 6
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "blue",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "green",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "red",
+       "cantidad": 6
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "yellow",
+       "cantidad": 0
+      }
+     ],
+     "colorMasReproducido": "red",
+     "colorMasComio": "red",
+     "colorMasDominante": "red"
+    }
+   }
+  },
+  {
+   "mode": "advanced",
+   "params": {
+    "names": [
+     "Lobos",
+     "Ovejas"
+    ],
+    "quantities": [
+     20,
+     20
+    ]
+   },
+   "solicitar": {
+    "request": {
+     "method": "POST",
+     "url": "/Solicitud/Solicitar?nombreUsuario=demo",
+     "body": {
+      "cantidadesIniciales": [
+       20,
+       20
+      ],
+      "nombreEntidades": [
+       "Lobos",
+       "Ovejas"
+      ]
+     }
+    },
+    "status": 201,
+    "response": {
+     "done": true,
+     "tokenSolicitud": 10814,
+     "errorMessage": null,
+     "data": true
+    }
+   },
+   "comprobar": {
+    "request": {
+     "method": "GET",
+     "url": "/Solicitud/ComprobarSolicitud?nombreUsuario=demo&tok=10814",
+     "body": null
+    },
+    "status": 200,
+    "response": [
+     1,
+     0
+    ]
+   },
+   "resultados": {
+    "request": {
+     "method": "POST",
+     "url": "/Resultados?nombreUsuario=demo&tok=10814",
+     "body": null
+    },
+    "status": 201,
+    "response": {
+     "done": true,
+     "tokenSolicitud": 10814,
+     "errorMessage": null,
+     "data": "8\n0,5,0,red\n0,0,5,red\n0,4,7,red\n0,7,3,red\n0,7,6,red\n0,1,1,red\n0,4,5,red\n0,0,1,red\n0,1,0,red\n0,4,0,red\n0,6,7,red\n0,7,2,red\n0,6,3,red\n0,5,4,red\n0,5,1,red\n0,5,2,red\n0,2,0,red\n0,6,0,red\n0,5,3,red\n0,5,6,red\n0,6,1,blue\n0,1,4,blue\n0,1,7,blue\n0,6,2,blue\n0,2,3,blue\n0,3,4,blue\n0,4,2,blue\n0,7,0,blue\n0,5,7,blue\n0,0,4,blue\n0,7,7,blue\n0,0,7,blue\n0,0,6,blue\n0,6,6,blue\n0,2,2,blue\n0,7,4,blue\n0,3,2,blue\n0,6,5,blue\n0,4,4,blue\n0,1,2,blue\n1,0,0,red\n1,0,1,blue\n1,0,2,red\n1,0,4,red\n1,0,6,blue\n1,1,3,blue\n1,1,7,blue\n1,2,0,red\n1,2,1,red\n1,2,3,blue\n1,2,7,blue\n1,3,0,red\n1,3,1,blue\n1,3,3,blue\n1,3,4,blue\n1,3,5,blue\n1,3,6,red\n1,4,0,red\n1,4,2,red\n1,4,3,red\n1,4,6,red\n1,4,7,red\n1,5,0,red\n1,5,2,red\n1,5,3,blue\n1,5,4,red\n1,5,7,red\n1,6,0,blue\n1,6,1,red\n1,6,3,red\n1,6,4,blue\n1,6,5,red\n1,7,1,blue\n1,7,4,red\n1,7,5,blue\n1,7,6,blue\n1,7,7,blue\n2,0,1,red\n2,0,3,red\n2,1,0,red\n2,1,1,blue\n2,1,3,red\n2,1,4,red\n2,1,7,blue\n2,2,0,red\n2,2,2,blue\n2,2,3,blue\n2,2,4,blue\n2,2,6,blue\n2,2,7,blue\n2,3,0,red\n2,3,3,blue\n2,3,4,blue\n2,3,5,red\n2,4,0,red\n2,4,2,blue\n2,4,6,red\n2,5,0,red\n2,5,2,red\n2,5,3,red\n2,5,4,blue\n2,5,6,red\n2,5,7,red\n2,6,0,red\n2,6,1,blue\n2,6,3,red\n2,6,4,red\n2,6,7,blue\n2,7,0,blue\n2,7,2,red\n2,7,3,red\n2,7,4,red\n2,7,5,red\n3,0,0,red\n3,0,1,red\n3,0,2,red\n3,0,3,red\n3,0,4,red\n3,1,0,red\n3,1,1,red\n3,1,7,blue\n3,2,0,red\n3,2,1,red\n3,2,3,blue\n3,2,4,blue\n3,2,7,blue\n3,3,3,blue\n3,3,5,blue\n3,3,6,red\n3,4,0,red\n3,4,4,blue\n3,4,6,red\n3,4,7,red\n3,5,1,red\n3,5,2,blue\n3,5,3,red\n3,5,4,red\n3,5,7,red\n3,6,0,red\n3,6,1,red\n3,6,2,red\n3,6,3,red\n3,6,4,red\n3,6,7,blue\n3,7,0,blue\n3,7,2,blue\n3,7,3,red\n3,7,4,red\n3,7,6,red\n4,0,0,red\n4,0,1,red\n4,0,2,red\n4,0,3,red\n4,0,5,red\n4,0,7,blue\n4,1,2,red\n4,1,4,blue\n4,2,0,red\n4,2,1,red\n4,2,2,blue\n4,2,3,blue\n4,2,5,blue\n4,3,0,red\n4,3,5,blue\n4,3,7,blue\n4,4,1,red\n4,4,2,blue\n4,4,5,red\n4,4,6,red\n4,4,7,red\n4,5,0,red\n4,5,1,red\n4,5,3,red\n4,5,4,red\n4,5,5,red\n4,5,7,red\n4,6,1,red\n4,6,2,red\n4,6,3,blue\n4,6,4,red\n4,6,5,red\n4,6,6,red\n4,6,7,red\n4,7,4,red\n4,7,5,red\n4,7,7,red\n5,0,1,red\n5,0,3,red\n5,0,5,red\n5,1,0,red\n5,1,2,red\n5,1,5,blue\n5,1,7,blue\n5,2,0,red\n5,2,3,red\n5,3,2,red\n5,3,5,red\n5,4,0,red\n5,4,1,red\n5,4,2,blue\n5,4,3,red\n5,4,4,red\n5,4,5,red\n5,4,6,red\n5,4,7,red\n5,5,0,red\n5,5,1,red\n5,5,3,red\n5,5,5,red\n5,5,6,red\n5,5,7,red\n5,6,2,red\n5,6,3,blue\n5,6,4,red\n5,6,6,red\n5,6,7,red\n5,7,1,red\n5,7,5,red\n5,7,6,red\n5,7,7,red\n6,0,0,red\n6,0,1,red\n6,0,2,red\n6,0,3,red\n6,0,6,red\n6,1,0,red\n6,1,2,red\n6,1,7,blue\n6,2,1,red\n6,2,3,red\n6,2,4,blue\n6,3,0,red\n6,3,2,red\n6,3,3,red\n6,3,6,red\n6,4,1,red\n6,4,2,red\n6,4,3,red\n6,5,0,red\n6,5,1,red\n6,5,2,red\n6,5,3,red\n6,5,4,red\n6,5,6,red\n6,5,7,red\n6,6,2,red\n6,6,3,red\n6,6,4,red\n6,6,5,red\n6,6,6,red\n6,6,7,red\n6,7,2,red\n6,7,5,red\n6,7,6,red\n6,7,7,red\n7,0,1,red\n7,0,2,red\n7,0,3,red\n7,0,4,red\n7,0,6,blue\n7,1,0,red\n7,1,1,red\n7,1,3,blue\n7,1,7,red\n7,2,1,red\n7,2,3,red\n7,3,0,red\n7,3,1,red\n7,3,3,red\n7,4,0,red\n7,4,1,red\n7,4,3,red\n7,4,5,red\n7,4,6,red\n7,4,7,red\n7,5,0,red\n7,5,2,red\n7,5,4,red\n7,5,6,red\n7,5,7,red\n7,6,3,red\n7,6,4,red\n7,6,5,red\n7,6,7,red\n7,7,1,red\n7,7,2,red\n7,7,3,red\n7,7,4,red\n7,7,5,red\n7,7,7,red\n8,0,1,red\n8,0,2,red\n8,0,4,blue\n8,0,5,red\n8,0,7,red\n8,1,0,red\n8,1,1,red\n8,1,2,red\n8,1,6,blue\n8,2,0,red\n8,2,2,red\n8,2,3,red\n8,3,0,red\n8,3,1,red\n8,3,2,red\n8,3,5,red\n8,3,6,red\n8,4,2,red\n8,4,6,red\n8,5,0,red\n8,5,1,red\n8,5,2,red\n8,5,3,red\n8,5,4,red\n8,5,6,red\n8,6,1,red\n8,6,4,red\n8,6,5,red\n8,6,6,red\n8,6,7,red\n8,7,1,red\n8,7,3,red\n8,7,4,red\n8,7,5,red\n8,7,7,red\n9,0,0,red\n9,0,2,red\n9,0,3,red\n9,0,5,blue\n9,1,1,red\n9,1,2,red\n9,1,4,red\n9,1,5,blue\n9,1,7,red\n9,2,1,red\n9,2,2,red\n9,3,0,red\n9,3,1,red\n9,3,4,red\n9,3,5,red\n9,3,7,red\n9,4,1,red\n9,4,2,red\n9,4,3,red\n9,4,5,red\n9,4,6,red\n9,5,1,red\n9,5,3,red\n9,5,4,red\n9,5,5,red\n9,5,6,red\n9,5,7,red\n9,6,1,red\n9,6,2,red\n9,6,3,red\n9,6,4,red\n9,6,7,red\n9,7,1,red\n9,7,3,red\n9,7,4,red\n9,7,6,red\n10,0,0,red\n10,0,1,red\n10,0,3,red\n10,1,0,red\n10,1,3,red\n10,1,4,blue\n10,2,1,red\n10,2,2,red\n10,2,4,red\n10,2,6,red\n10,3,0,red\n10,3,1,red\n10,3,5,red\n10,3,7,red\n10,4,0,red\n10,4,1,red\n10,4,4,red\n10,4,5,red\n10,4,6,red\n10,4,7,red\n10,5,2,red\n10,5,3,red\n10,5,4,red\n10,5,5,red\n10,5,6,red\n10,5,7,red\n10,6,2,red\n10,6,3,red\n10,6,4,red\n10,6,5,red\n10,6,6,red\n10,7,1,red\n10,7,2,red\n10,7,3,red\n10,7,4,red\n"
+    }
+   },
+   "estadisticas": {
+    "request": {
+     "method": "GET",
+     "url": "/Estadisticas?tok=10814",
+     "body": null
+    },
+    "status": 200,
+    "response": {
+     "done": true,
+     "errorMessage": null,
+     "tokenSolicitud": 10814,
+     "entidades": [
+      {
+       "nombre": "Lobos",
+       "color": "red"
+      },
+      {
+       "nombre": "Ovejas",
+       "color": "blue"
+      }
+     ],
+     "poblacionPorPaso": [
+      {
+       "pasoTiempo": 0,
+       "color": "blue",
+       "cantidad": 20
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "red",
+       "cantidad": 20
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "blue",
+       "cantidad": 17
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "red",
+       "cantidad": 20
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "blue",
+       "cantidad": 14
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "red",
+       "cantidad": 22
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "blue",
+       "cantidad": 11
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "red",
+       "cantidad": 25
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "blue",
+       "cantidad": 9
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "red",
+       "cantidad": 28
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "blue",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "red",
+       "cantidad": 30
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "blue",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "red",
+       "cantidad": 33
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "blue",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "red",
+       "cantidad": 33
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "blue",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "red",
+       "cantidad": 33
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "blue",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "red",
+       "cantidad": 34
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "blue",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "red",
+       "cantidad": 34
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "yellow",
+       "cantidad": 0
+      }
+     ],
+     "colorMasReproducido": "red",
+     "colorMasComio": "red",
+     "colorMasDominante": "red"
+    }
+   }
+  },
+  {
+   "mode": "advanced",
+   "params": {
+    "names": [
+     "Musgo"
+    ],
+    "quantities": [
+     10
+    ]
+   },
+   "solicitar": {
+    "request": {
+     "method": "POST",
+     "url": "/Solicitud/Solicitar?nombreUsuario=demo",
+     "body": {
+      "cantidadesIniciales": [
+       10
+      ],
+      "nombreEntidades": [
+       "Musgo"
+      ]
+     }
+    },
+    "status": 201,
+    "response": {
+     "done": true,
+     "tokenSolicitud": 39720,
+     "errorMessage": null,
+     "data": true
+    }
+   },
+   "comprobar": {
+    "request": {
+     "method": "GET",
+     "url": "/Solicitud/ComprobarSolicitud?nombreUsuario=demo&tok=39720",
+     "body": null
+    },
+    "status": 200,
+    "response": [
+     1,
+     0
+    ]
+   },
+   "resultados": {
+    "request": {
+     "method": "POST",
+     "url": "/Resultados?nombreUsuario=demo&tok=39720",
+     "body": null
+    },
+    "status": 201,
+    "response": {
+     "done": true,
+     "tokenSolicitud": 39720,
+     "errorMessage": null,
+     "data": "8\n0,4,5,red\n0,1,1,red\n0,3,6,red\n0,3,1,red\n0,6,1,red\n0,0,5,red\n0,7,0,red\n0,6,6,red\n0,2,5,red\n0,3,5,red\n1,0,5,red\n1,1,5,red\n1,2,2,red\n1,2,5,red\n1,3,0,red\n1,4,5,red\n1,5,2,red\n1,5,6,red\n1,6,7,red\n1,7,0,red\n2,1,4,red\n2,1,6,red\n2,2,1,red\n2,3,1,red\n2,3,4,red\n2,5,1,red\n2,5,6,red\n2,5,7,red\n2,7,1,red\n2,7,7,red\n3,1,5,red\n3,2,4,red\n3,2,5,red\n3,3,0,red\n3,3,1,red\n3,4,6,red\n3,5,1,red\n3,5,6,red\n3,6,0,red\n3,6,7,red\n4,1,4,red\n4,1,5,red\n4,2,3,red\n4,3,6,red\n4,4,0,red\n4,4,2,red\n4,4,7,red\n4,5,0,red\n4,6,1,red\n4,6,6,red\n5,1,3,red\n5,2,4,red\n5,3,0,red\n5,3,1,red\n5,3,4,red\n5,4,6,red\n5,5,7,red\n5,6,0,red\n5,6,1,red\n5,6,7,red\n6,0,4,red\n6,2,0,red\n6,2,3,red\n6,2,4,red\n6,3,0,red\n6,4,7,red\n6,5,5,red\n6,5,7,red\n6,7,1,red\n6,7,2,red\n7,0,5,red\n7,1,3,red\n7,2,0,red\n7,3,1,red\n7,3,2,red\n7,4,7,red\n7,6,2,red\n7,6,3,red\n7,6,6,red\n7,6,7,red\n8,0,4,red\n8,2,0,red\n8,2,2,red\n8,2,3,red\n8,4,2,red\n8,4,7,red\n8,5,1,red\n8,6,3,red\n8,6,7,red\n8,7,6,red\n9,0,5,red\n9,2,0,red\n9,2,4,red\n9,3,3,red\n9,3,7,red\n9,4,3,red\n9,6,0,red\n9,6,3,red\n9,6,5,red\n9,7,6,red\n10,0,6,red\n10,1,3,red\n10,2,0,red\n10,2,4,red\n10,2,7,red\n10,3,2,red\n10,5,3,red\n10,6,1,red\n10,6,7,red\n10,7,6,red\n"
+    }
+   },
+   "estadisticas": {
+    "request": {
+     "method": "GET",
+     "url": "/Estadisticas?tok=39720",
+     "body": null
+    },
+    "status": 200,
+    "response": {
+     "done": true,
+     "errorMessage": null,
+     "tokenSolicitud": 39720,
+     "entidades": [
+      {
+       "nombre": "Musgo",
+       "color": "red"
+      }
+     ],
+     "poblacionPorPaso": [
+      {
+       "pasoTiempo": 0,
+       "color": "blue",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "red",
+       "cantidad": 10
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "blue",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "red",
+       "cantidad": 10
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "blue",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "red",
+       "cantidad": 10
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "blue",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "red",
+       "cantidad": 10
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "blue",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "red",
+       "cantidad": 10
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "blue",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "red",
+       "cantidad": 10
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "blue",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "red",
+       "cantidad": 10
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "blue",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "red",
+       "cantidad": 10
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "blue",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "red",
+       "cantidad": 10
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "blue",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "red",
+       "cantidad": 10
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "blue",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "red",
+       "cantidad": 10
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "yellow",
+       "cantidad": 0
+      }
+     ],
+     "colorMasReproducido": "orange",
+     "colorMasComio": null,
+     "colorMasDominante": "red"
+    }
+   }
+  },
+  {
+   "mode": "advanced",
+   "params": {
+    "names": [
+     "A",
+     "B",
+     "C",
+     "D"
+    ],
+    "quantities": [
+     15,
+     10,
+     8,
+     2
+    ]
+   },
+   "solicitar": {
+    "request": {
+     "method": "POST",
+     "url": "/Solicitud/Solicitar?nombreUsuario=demo",
+     "body": {
+      "cantidadesIniciales": [
+       15,
+       10,
+       8,
+       2
+      ],
+      "nombreEntidades": [
+       "A",
+       "B",
+       "C",
+       "D"
+      ]
+     }
+    },
+    "status": 201,
+    "response": {
+     "done": true,
+     "tokenSolicitud": 38383,
+     "errorMessage": null,
+     "data": true
+    }
+   },
+   "comprobar": {
+    "request": {
+     "method": "GET",
+     "url": "/Solicitud/ComprobarSolicitud?nombreUsuario=demo&tok=38383",
+     "body": null
+    },
+    "status": 200,
+    "response": [
+     1,
+     0
+    ]
+   },
+   "resultados": {
+    "request": {
+     "method": "POST",
+     "url": "/Resultados?nombreUsuario=demo&tok=38383",
+     "body": null
+    },
+    "status": 201,
+    "response": {
+     "done": true,
+     "tokenSolicitud": 38383,
+     "errorMessage": null,
+     "data": "8\n0,0,3,red\n0,3,7,red\n0,0,2,red\n0,3,6,red\n0,5,4,red\n0,1,0,red\n0,6,5,red\n0,0,5,red\n0,6,4,red\n0,7,0,red\n0,5,1,red\n0,5,6,red\n0,6,1,red\n0,3,1,red\n0,1,2,red\n0,7,4,blue\n0,7,2,blue\n0,7,5,blue\n0,4,2,blue\n0,4,0,blue\n0,2,7,blue\n0,4,6,blue\n0,6,6,blue\n0,1,3,blue\n0,6,0,blue\n0,4,3,green\n0,7,3,green\n0,2,6,green\n0,3,2,green\n0,6,7,green\n0,5,7,green\n0,6,3,green\n0,0,0,green\n0,0,7,yellow\n0,3,3,yellow\n1,0,0,red\n1,0,3,red\n1,0,4,red\n1,1,1,red\n1,1,3,blue\n1,1,6,blue\n1,1,7,green\n1,2,3,red\n1,2,7,red\n1,3,0,blue\n1,3,3,yellow\n1,3,5,blue\n1,3,7,red\n1,4,0,red\n1,4,2,green\n1,4,3,blue\n1,4,5,red\n1,4,6,green\n1,5,1,red\n1,5,3,green\n1,6,2,red\n1,6,4,green\n1,6,5,red\n1,7,0,red\n1,7,2,green\n1,7,3,blue\n1,7,4,red\n1,7,5,blue\n1,7,6,red\n1,7,7,green\n2,0,0,red\n2,0,3,red\n2,0,5,blue\n2,1,3,red\n2,1,6,green\n2,2,1,red\n2,2,3,yellow\n2,2,4,blue\n2,2,7,red\n2,3,0,blue\n2,3,3,red\n2,3,5,red\n2,3,6,blue\n2,3,7,red\n2,4,1,green\n2,4,2,red\n2,4,7,green\n2,5,0,red\n2,6,3,green\n2,6,4,blue\n2,6,5,red\n2,6,6,red\n2,6,7,green\n2,7,0,red\n2,7,1,red\n2,7,3,green\n2,7,4,blue\n2,7,5,red\n2,7,6,red\n3,0,1,red\n3,1,3,blue\n3,1,4,red\n3,2,0,blue\n3,2,3,red\n3,2,5,green\n3,3,0,red\n3,3,2,green\n3,3,4,red\n3,3,6,red\n3,3,7,red\n3,4,1,red\n3,4,2,red\n3,4,7,green\n3,5,5,red\n3,6,0,red\n3,6,1,red\n3,6,2,green\n3,6,4,blue\n3,6,5,blue\n3,6,7,green\n3,7,0,red\n3,7,2,green\n3,7,5,red\n3,7,6,red\n3,7,7,red\n4,1,0,blue\n4,1,2,red\n4,1,3,red\n4,1,4,red\n4,2,4,red\n4,2,5,green\n4,3,1,red\n4,3,3,green\n4,3,7,red\n4,4,0,red\n4,4,1,red\n4,4,2,red\n4,4,7,red\n4,5,0,red\n4,5,2,red\n4,5,4,red\n4,5,6,green\n4,5,7,green\n4,6,1,red\n4,6,6,blue\n4,7,1,red\n4,7,3,green\n4,7,4,blue\n4,7,5,red\n4,7,6,red\n4,7,7,red\n5,0,1,blue\n5,0,5,red\n5,1,3,red\n5,2,3,red\n5,2,5,red\n5,3,6,green\n5,3,7,red\n5,4,0,red\n5,4,2,red\n5,5,0,red\n5,5,1,red\n5,5,2,red\n5,5,6,green\n5,5,7,red\n5,6,0,red\n5,6,1,red\n5,6,4,red\n5,6,6,red\n5,7,2,red\n5,7,4,red\n5,7,5,blue\n5,7,6,red\n6,0,2,blue\n6,1,2,red\n6,1,4,red\n6,1,5,red\n6,3,1,red\n6,3,2,red\n6,4,1,red\n6,4,2,red\n6,4,6,red\n6,4,7,red\n6,5,0,red\n6,5,1,red\n6,5,5,red\n6,6,0,red\n6,6,5,red\n6,7,1,red\n6,7,3,red\n6,7,4,red\n6,7,7,red\n7,0,5,red\n7,1,1,blue\n7,1,4,red\n7,1,5,red\n7,2,0,red\n7,2,3,red\n7,3,1,red\n7,3,3,red\n7,3,5,red\n7,4,2,red\n7,4,7,red\n7,5,0,red\n7,5,5,red\n7,6,0,red\n7,6,1,red\n7,6,5,red\n7,6,6,red\n7,7,0,red\n7,7,3,red\n7,7,4,red\n7,7,6,red\n7,7,7,red\n8,0,6,red\n8,1,4,red\n8,1,5,red\n8,2,0,red\n8,2,1,blue\n8,2,3,red\n8,3,0,red\n8,3,1,red\n8,3,2,red\n8,4,1,red\n8,4,4,red\n8,5,0,red\n8,5,4,red\n8,5,6,red\n8,5,7,red\n8,6,0,red\n8,6,1,red\n8,6,5,red\n8,6,6,red\n8,6,7,red\n8,7,0,red\n8,7,3,red\n8,7,4,red\n9,0,4,red\n9,0,5,red\n9,1,6,red\n9,2,2,red\n9,2,3,red\n9,2,5,red\n9,3,0,red\n9,3,1,blue\n9,3,3,red\n9,3,4,red\n9,4,0,red\n9,4,6,red\n9,4,7,red\n9,5,0,red\n9,5,2,red\n9,5,7,red\n9,6,0,red\n9,6,2,red\n9,6,3,red\n9,6,4,red\n9,6,5,red\n9,7,0,red\n9,7,3,red\n9,7,4,red\n9,7,6,red\n10,0,5,red\n10,0,6,red\n10,1,1,red\n10,1,5,red\n10,2,3,red\n10,2,4,red\n10,2,5,red\n10,3,2,red\n10,3,3,red\n10,4,0,red\n10,4,1,blue\n10,4,3,red\n10,4,6,red\n10,4,7,red\n10,5,1,red\n10,5,5,red\n10,5,6,red\n10,6,0,red\n10,6,1,red\n10,6,4,red\n10,7,0,red\n10,7,1,red\n10,7,2,red\n10,7,3,red\n10,7,5,red\n10,7,6,red\n"
+    }
+   },
+   "estadisticas": {
+    "request": {
+     "method": "GET",
+     "url": "/Estadisticas?tok=38383",
+     "body": null
+    },
+    "status": 200,
+    "response": {
+     "done": true,
+     "errorMessage": null,
+     "tokenSolicitud": 38383,
+     "entidades": [
+      {
+       "nombre": "A",
+       "color": "red"
+      },
+      {
+       "nombre": "B",
+       "color": "blue"
+      },
+      {
+       "nombre": "C",
+       "color": "green"
+      },
+      {
+       "nombre": "D",
+       "color": "yellow"
+      }
+     ],
+     "poblacionPorPaso": [
+      {
+       "pasoTiempo": 0,
+       "color": "blue",
+       "cantidad": 10
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "green",
+       "cantidad": 8
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "red",
+       "cantidad": 15
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "yellow",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "blue",
+       "cantidad": 7
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "green",
+       "cantidad": 7
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "red",
+       "cantidad": 15
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "yellow",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "blue",
+       "cantidad": 6
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "green",
+       "cantidad": 6
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "red",
+       "cantidad": 16
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "yellow",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "blue",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "green",
+       "cantidad": 6
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "red",
+       "cantidad": 16
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "blue",
+       "cantidad": 3
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "green",
+       "cantidad": 5
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "red",
+       "cantidad": 18
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "blue",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "green",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "red",
+       "cantidad": 18
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "blue",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "red",
+       "cantidad": 18
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "blue",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "red",
+       "cantidad": 21
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "blue",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "red",
+       "cantidad": 22
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "blue",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "red",
+       "cantidad": 24
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "yellow",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "blue",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "orange",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "purple",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "red",
+       "cantidad": 25
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "yellow",
+       "cantidad": 0
+      }
+     ],
+     "colorMasReproducido": "red",
+     "colorMasComio": "red",
+     "colorMasDominante": "red"
+    }
+   }
+  },
+  {
+   "mode": "advanced",
+   "params": {
+    "names": [
+     "Rojo",
+     "Azul",
+     "Verde",
+     "Amarillo",
+     "Naranja",
+     "Morado"
+    ],
+    "quantities": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     4
+    ]
+   },
+   "solicitar": {
+    "request": {
+     "method": "POST",
+     "url": "/Solicitud/Solicitar?nombreUsuario=demo",
+     "body": {
+      "cantidadesIniciales": [
+       4,
+       4,
+       4,
+       4,
+       4,
+       4
+      ],
+      "nombreEntidades": [
+       "Rojo",
+       "Azul",
+       "Verde",
+       "Amarillo",
+       "Naranja",
+       "Morado"
+      ]
+     }
+    },
+    "status": 201,
+    "response": {
+     "done": true,
+     "tokenSolicitud": 10728,
+     "errorMessage": null,
+     "data": true
+    }
+   },
+   "comprobar": {
+    "request": {
+     "method": "GET",
+     "url": "/Solicitud/ComprobarSolicitud?nombreUsuario=demo&tok=10728",
+     "body": null
+    },
+    "status": 200,
+    "response": [
+     1,
+     0
+    ]
+   },
+   "resultados": {
+    "request": {
+     "method": "POST",
+     "url": "/Resultados?nombreUsuario=demo&tok=10728",
+     "body": null
+    },
+    "status": 201,
+    "response": {
+     "done": true,
+     "tokenSolicitud": 10728,
+     "errorMessage": null,
+     "data": "8\n0,6,3,red\n0,6,6,red\n0,6,2,red\n0,0,7,red\n0,7,1,blue\n0,7,5,blue\n0,4,1,blue\n0,1,7,blue\n0,5,3,green\n0,3,0,green\n0,6,0,green\n0,2,7,green\n0,6,1,yellow\n0,1,4,yellow\n0,0,6,yellow\n0,2,1,yellow\n0,6,7,orange\n0,3,7,orange\n0,4,5,orange\n0,1,5,orange\n0,3,4,purple\n0,2,6,purple\n0,4,7,purple\n0,0,3,purple\n1,0,2,purple\n1,0,4,yellow\n1,0,6,orange\n1,0,7,red\n1,1,6,yellow\n1,1,7,blue\n1,2,0,green\n1,2,1,yellow\n1,2,5,purple\n1,2,7,orange\n1,3,7,green\n1,4,2,red\n1,4,4,purple\n1,4,5,orange\n1,4,7,purple\n1,5,1,blue\n1,5,2,red\n1,6,3,green\n1,7,0,green\n1,7,2,blue\n1,7,6,red\n1,7,7,orange\n2,0,3,purple\n2,0,4,yellow\n2,0,6,orange\n2,0,7,blue\n2,1,0,yellow\n2,1,7,red\n2,2,5,yellow\n2,2,7,orange\n2,3,1,green\n2,3,4,purple\n2,3,6,green\n2,3,7,purple\n2,4,2,red\n2,4,6,orange\n2,5,1,red\n2,5,3,purple\n2,6,0,blue\n2,6,2,blue\n2,6,7,orange\n2,7,0,green\n2,7,2,green\n2,7,5,red\n3,0,0,yellow\n3,0,4,yellow\n3,0,7,orange\n3,1,3,purple\n3,1,7,blue\n3,2,1,green\n3,2,5,purple\n3,2,6,purple\n3,2,7,red\n3,3,1,red\n3,3,4,yellow\n3,3,5,green\n3,3,6,orange\n3,4,1,red\n3,4,2,purple\n3,4,6,orange\n3,5,2,blue\n3,6,3,green\n3,6,6,orange\n3,7,0,green\n3,7,1,blue\n3,7,6,red\n4,0,0,yellow\n4,0,5,yellow\n4,0,7,orange\n4,1,2,purple\n4,2,2,red\n4,2,6,purple\n4,2,7,red\n4,3,5,orange\n4,3,6,purple\n4,4,1,blue\n4,4,3,yellow\n4,4,5,orange\n4,4,6,green\n4,5,0,red\n4,5,1,purple\n4,5,3,green\n4,5,5,orange\n4,6,7,red\n4,7,0,blue\n4,7,1,green\n5,0,0,yellow\n5,0,6,yellow\n5,0,7,orange\n5,1,6,purple\n5,2,3,purple\n5,2,4,red\n5,3,3,orange\n5,3,5,orange\n5,3,7,red\n5,4,2,blue\n5,4,5,purple\n5,4,6,orange\n5,5,1,green\n5,5,4,yellow\n5,5,7,red\n5,6,0,red\n5,6,2,purple\n5,7,1,blue\n6,0,1,yellow\n6,0,5,yellow\n6,0,7,purple\n6,1,4,red\n6,1,6,orange\n6,2,2,orange\n6,2,3,purple\n6,3,5,purple\n6,3,7,red\n6,4,2,green\n6,4,3,blue\n6,4,5,orange\n6,4,7,red\n6,5,0,red\n6,5,3,purple\n6,5,6,orange\n6,6,2,blue\n7,0,2,yellow\n7,0,4,red\n7,0,6,yellow\n7,1,3,orange\n7,1,5,purple\n7,2,4,orange\n7,2,7,red\n7,3,4,purple\n7,3,6,purple\n7,3,7,red\n7,4,0,red\n7,4,6,orange\n7,5,1,green\n7,5,4,blue\n7,5,5,orange\n7,6,1,blue\n7,6,2,purple\n8,0,4,red\n8,0,5,yellow\n8,1,1,yellow\n8,1,4,orange\n8,2,5,purple\n8,2,6,purple\n8,2,7,red\n8,3,4,orange\n8,3,5,orange\n8,3,6,purple\n8,3,7,red\n8,4,0,red\n8,4,4,orange\n8,5,1,blue\n8,5,3,blue\n8,6,1,purple\n9,0,0,yellow\n9,0,5,red\n9,1,3,purple\n9,1,5,yellow\n9,1,7,red\n9,2,4,orange\n9,2,6,red\n9,3,6,orange\n9,3,7,purple\n9,4,0,red\n9,4,4,orange\n9,4,6,purple\n9,5,5,orange\n9,6,2,blue\n9,7,2,purple\n10,0,1,yellow\n10,0,4,purple\n10,0,6,red\n10,1,4,orange\n10,1,5,yellow\n10,2,5,orange\n10,2,6,purple\n10,2,7,red\n10,3,0,red\n10,3,5,red\n10,4,6,purple\n10,5,5,orange\n10,6,3,blue\n10,6,4,orange\n10,7,1,purple\n"
+    }
+   },
+   "estadisticas": {
+    "request": {
+     "method": "GET",
+     "url": "/Estadisticas?tok=10728",
+     "body": null
+    },
+    "status": 200,
+    "response": {
+     "done": true,
+     "errorMessage": null,
+     "tokenSolicitud": 10728,
+     "entidades": [
+      {
+       "nombre": "Rojo",
+       "color": "red"
+      },
+      {
+       "nombre": "Azul",
+       "color": "blue"
+      },
+      {
+       "nombre": "Verde",
+       "color": "green"
+      },
+      {
+       "nombre": "Amarillo",
+       "color": "yellow"
+      },
+      {
+       "nombre": "Naranja",
+       "color": "orange"
+      },
+      {
+       "nombre": "Morado",
+       "color": "purple"
+      }
+     ],
+     "poblacionPorPaso": [
+      {
+       "pasoTiempo": 0,
+       "color": "blue",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "green",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "orange",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "red",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "yellow",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "blue",
+       "cantidad": 3
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "green",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "orange",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "red",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "yellow",
+       "cantidad": 3
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "blue",
+       "cantidad": 3
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "green",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "orange",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "red",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "yellow",
+       "cantidad": 3
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "blue",
+       "cantidad": 3
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "green",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "orange",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "red",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "yellow",
+       "cantidad": 3
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "blue",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "green",
+       "cantidad": 3
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "orange",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "red",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "yellow",
+       "cantidad": 3
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "blue",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "green",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "orange",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "red",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "yellow",
+       "cantidad": 3
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "blue",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "green",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "orange",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "red",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "yellow",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "blue",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "green",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "orange",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "red",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "yellow",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "blue",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "orange",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "red",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "yellow",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "blue",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "orange",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "red",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "yellow",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "blue",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "green",
+       "cantidad": 0
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "orange",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "red",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "yellow",
+       "cantidad": 2
+      }
+     ],
+     "colorMasReproducido": "orange",
+     "colorMasComio": "red",
+     "colorMasDominante": "red"
+    }
+   }
+  },
+  {
+   "mode": "advanced",
+   "params": {
+    "names": [
+     "Rojo",
+     "Azul",
+     "Verde",
+     "Amarillo",
+     "Naranja",
+     "Morado"
+    ],
+    "quantities": [
+     12,
+     12,
+     12,
+     12,
+     12,
+     12
+    ]
+   },
+   "solicitar": {
+    "request": {
+     "method": "POST",
+     "url": "/Solicitud/Solicitar?nombreUsuario=demo",
+     "body": {
+      "cantidadesIniciales": [
+       12,
+       12,
+       12,
+       12,
+       12,
+       12
+      ],
+      "nombreEntidades": [
+       "Rojo",
+       "Azul",
+       "Verde",
+       "Amarillo",
+       "Naranja",
+       "Morado"
+      ]
+     }
+    },
+    "status": 201,
+    "response": {
+     "done": true,
+     "tokenSolicitud": 89095,
+     "errorMessage": null,
+     "data": true
+    }
+   },
+   "comprobar": {
+    "request": {
+     "method": "GET",
+     "url": "/Solicitud/ComprobarSolicitud?nombreUsuario=demo&tok=89095",
+     "body": null
+    },
+    "status": 200,
+    "response": [
+     1,
+     0
+    ]
+   },
+   "resultados": {
+    "request": {
+     "method": "POST",
+     "url": "/Resultados?nombreUsuario=demo&tok=89095",
+     "body": null
+    },
+    "status": 201,
+    "response": {
+     "done": true,
+     "tokenSolicitud": 89095,
+     "errorMessage": null,
+     "data": "8\n0,0,3,red\n0,5,0,red\n0,4,4,red\n0,1,6,red\n0,2,1,red\n0,3,1,red\n0,0,5,red\n0,1,4,red\n0,2,3,red\n0,3,3,red\n0,3,0,red\n0,6,6,red\n0,5,5,blue\n0,3,2,blue\n0,2,4,blue\n0,7,5,blue\n0,4,5,blue\n0,0,1,blue\n0,2,6,blue\n0,6,0,blue\n0,6,5,blue\n0,5,2,blue\n0,5,4,blue\n0,0,7,blue\n0,7,0,green\n0,5,1,green\n0,3,4,green\n0,3,7,green\n0,0,6,green\n0,4,0,green\n0,1,0,green\n0,7,4,green\n0,6,2,green\n0,2,5,green\n0,3,5,green\n0,1,1,green\n0,2,7,yellow\n0,4,6,yellow\n0,4,7,yellow\n0,4,3,yellow\n0,0,0,yellow\n0,5,7,yellow\n0,4,1,yellow\n0,7,6,yellow\n0,7,1,yellow\n0,5,3,yellow\n0,7,2,yellow\n0,0,4,yellow\n0,6,1,orange\n0,1,7,orange\n0,6,7,orange\n0,2,2,orange\n0,7,3,orange\n0,3,6,orange\n0,5,6,orange\n0,2,0,orange\n0,1,3,orange\n0,6,3,orange\n0,0,2,orange\n0,1,2,orange\n0,7,7,purple\n0,1,5,purple\n0,6,4,purple\n0,4,2,purple\n1,0,0,yellow\n1,0,1,green\n1,0,2,yellow\n1,0,3,orange\n1,0,4,red\n1,0,5,red\n1,0,6,blue\n1,0,7,blue\n1,1,0,purple\n1,1,1,blue\n1,1,2,green\n1,1,3,red\n1,1,4,blue\n1,1,5,purple\n1,1,6,red\n1,1,7,green\n1,2,1,orange\n1,2,2,red\n1,2,3,orange\n1,2,4,orange\n1,2,5,blue\n1,2,6,red\n1,2,7,orange\n1,3,0,orange\n1,3,1,red\n1,3,2,red\n1,3,3,blue\n1,3,4,green\n1,3,5,orange\n1,3,7,yellow\n1,4,0,red\n1,4,1,red\n1,4,3,yellow\n1,4,4,red\n1,4,5,green\n1,4,7,yellow\n1,5,0,red\n1,5,1,yellow\n1,5,3,purple\n1,5,4,red\n1,5,5,purple\n1,5,6,blue\n1,5,7,yellow\n1,6,0,green\n1,6,1,orange\n1,6,2,yellow\n1,6,3,orange\n1,6,4,blue\n1,6,6,orange\n1,6,7,yellow\n1,7,0,blue\n1,7,1,green\n1,7,2,yellow\n1,7,3,orange\n1,7,4,yellow\n1,7,5,green\n1,7,6,blue\n1,7,7,orange\n2,0,0,yellow\n2,0,1,red\n2,0,2,red\n2,0,3,yellow\n2,0,5,red\n2,0,7,green\n2,1,1,green\n2,1,2,red\n2,1,3,orange\n2,1,5,blue\n2,1,6,orange\n2,1,7,blue\n2,2,0,purple\n2,2,1,blue\n2,2,2,red\n2,2,3,red\n2,2,4,blue\n2,2,5,red\n2,2,6,purple\n2,2,7,red\n2,3,0,red\n2,3,1,orange\n2,3,2,red\n2,3,3,orange\n2,3,4,orange\n2,3,5,orange\n2,3,6,blue\n2,3,7,yellow\n2,4,0,orange\n2,4,1,red\n2,4,2,blue\n2,4,3,green\n2,4,4,red\n2,4,5,green\n2,4,7,yellow\n2,5,0,red\n2,5,1,orange\n2,5,2,yellow\n2,5,3,red\n2,5,4,purple\n2,5,5,green\n2,5,6,yellow\n2,5,7,orange\n2,6,0,green\n2,6,2,yellow\n2,6,4,purple\n2,6,5,yellow\n2,6,6,blue\n2,6,7,yellow\n2,7,0,green\n2,7,1,blue\n2,7,2,orange\n2,7,3,orange\n2,7,4,blue\n2,7,5,orange\n2,7,6,blue\n3,0,0,yellow\n3,0,1,red\n3,0,3,red\n3,0,4,yellow\n3,0,5,blue\n3,0,6,red\n3,1,1,purple\n3,1,2,red\n3,1,3,red\n3,1,4,blue\n3,1,6,red\n3,1,7,orange\n3,2,1,orange\n3,2,2,green\n3,2,3,orange\n3,2,4,orange\n3,2,6,orange\n3,3,0,blue\n3,3,1,orange\n3,3,2,red\n3,3,3,orange\n3,3,4,green\n3,3,5,red\n3,3,6,green\n3,3,7,yellow\n3,4,0,red\n3,4,1,blue\n3,4,2,red\n3,4,3,red\n3,4,4,purple\n3,4,5,yellow\n3,4,6,purple\n3,4,7,yellow\n3,5,0,red\n3,5,1,orange\n3,5,2,orange\n3,5,4,red\n3,5,6,green\n3,6,0,red\n3,6,1,yellow\n3,6,2,blue\n3,6,3,yellow\n3,6,4,blue\n3,6,5,yellow\n3,6,6,yellow\n3,6,7,orange\n3,7,0,green\n3,7,3,purple\n3,7,4,orange\n3,7,5,orange\n3,7,6,blue\n3,7,7,blue\n4,0,0,yellow\n4,0,2,red\n4,0,4,blue\n4,0,5,red\n4,0,7,orange\n4,1,1,red\n4,1,2,red\n4,1,3,red\n4,1,4,yellow\n4,1,5,red\n4,1,6,red\n4,2,1,purple\n4,2,2,red\n4,2,3,blue\n4,2,4,orange\n4,2,5,red\n4,2,7,yellow\n4,3,0,blue\n4,3,1,orange\n4,3,2,red\n4,3,3,orange\n4,3,4,orange\n4,3,5,orange\n4,3,6,green\n4,4,0,blue\n4,4,1,orange\n4,4,3,red\n4,4,4,yellow\n4,4,6,green\n4,4,7,green\n4,5,0,red\n4,5,2,red\n4,5,3,purple\n4,5,4,red\n4,5,5,yellow\n4,5,6,purple\n4,5,7,yellow\n4,6,0,orange\n4,6,1,red\n4,6,2,yellow\n4,6,3,orange\n4,6,4,blue\n4,6,5,red\n4,6,6,blue\n4,7,0,green\n4,7,1,yellow\n4,7,2,orange\n4,7,3,blue\n4,7,4,purple\n4,7,5,orange\n4,7,6,blue\n4,7,7,orange\n5,0,0,blue\n5,0,2,red\n5,0,4,red\n5,0,5,red\n5,1,1,yellow\n5,1,2,red\n5,1,4,red\n5,1,5,blue\n5,1,6,red\n5,1,7,orange\n5,2,0,red\n5,2,1,orange\n5,2,2,red\n5,2,3,orange\n5,2,5,yellow\n5,3,0,blue\n5,3,1,purple\n5,3,2,red\n5,3,4,red\n5,3,5,orange\n5,3,6,green\n5,3,7,yellow\n5,4,1,red\n5,4,2,orange\n5,4,3,orange\n5,4,4,orange\n5,4,5,yellow\n5,4,6,green\n5,5,0,red\n5,5,1,red\n5,5,2,purple\n5,5,3,red\n5,5,4,red\n5,5,6,orange\n5,5,7,green\n5,6,0,orange\n5,6,3,yellow\n5,6,4,yellow\n5,6,5,purple\n5,6,6,orange\n5,6,7,yellow\n5,7,0,orange\n5,7,1,green\n5,7,2,blue\n5,7,3,blue\n5,7,4,orange\n5,7,5,red\n5,7,6,purple\n5,7,7,blue\n6,0,0,blue\n6,0,2,red\n6,0,6,red\n6,1,2,red\n6,1,3,orange\n6,1,4,red\n6,1,5,red\n6,1,6,red\n6,2,0,red\n6,2,3,purple\n6,2,4,blue\n6,2,5,yellow\n6,2,6,red\n6,2,7,orange\n6,3,0,orange\n6,3,2,red\n6,3,3,red\n6,3,4,orange\n6,3,5,orange\n6,4,0,blue\n6,4,1,purple\n6,4,2,red\n6,4,4,yellow\n6,4,5,green\n6,4,6,yellow\n6,4,7,green\n6,5,0,red\n6,5,1,red\n6,5,2,red\n6,5,3,orange\n6,5,4,orange\n6,5,5,red\n6,5,6,orange\n6,5,7,orange\n6,6,0,red\n6,6,1,orange\n6,6,2,orange\n6,6,3,blue\n6,6,4,yellow\n6,6,6,purple\n6,6,7,blue\n6,7,1,orange\n6,7,2,red\n6,7,3,blue\n6,7,4,yellow\n6,7,5,red\n6,7,7,purple\n7,0,0,blue\n7,0,1,red\n7,0,3,red\n7,0,4,red\n7,0,6,red\n7,0,7,red\n7,1,1,red\n7,1,3,orange\n7,2,2,red\n7,2,3,orange\n7,2,4,blue\n7,2,6,red\n7,3,1,red\n7,3,2,red\n7,3,3,yellow\n7,3,4,purple\n7,3,6,yellow\n7,3,7,orange\n7,4,0,blue\n7,4,1,orange\n7,4,2,purple\n7,4,3,orange\n7,4,4,red\n7,4,5,green\n7,4,6,orange\n7,4,7,yellow\n7,5,0,red\n7,5,1,red\n7,5,2,red\n7,5,5,red\n7,5,6,orange\n7,5,7,green\n7,6,1,red\n7,6,2,red\n7,6,3,orange\n7,6,4,blue\n7,6,5,yellow\n7,6,6,orange\n7,6,7,blue\n7,7,0,red\n7,7,1,red\n7,7,2,orange\n7,7,3,orange\n7,7,4,yellow\n7,7,5,orange\n7,7,6,purple\n7,7,7,purple\n8,0,0,red\n8,0,2,red\n8,0,3,red\n8,0,6,red\n8,1,1,red\n8,1,2,orange\n8,1,4,red\n8,1,5,red\n8,1,6,red\n8,2,2,red\n8,2,3,blue\n8,2,4,yellow\n8,2,5,purple\n8,2,6,yellow\n8,3,2,orange\n8,3,3,red\n8,3,5,orange\n8,3,6,yellow\n8,4,0,orange\n8,4,1,blue\n8,4,3,orange\n8,4,4,purple\n8,4,7,orange\n8,5,0,red\n8,5,1,red\n8,5,2,orange\n8,5,3,red\n8,5,4,green\n8,5,5,orange\n8,5,6,orange\n8,5,7,blue\n8,6,0,red\n8,6,1,orange\n8,6,2,red\n8,6,3,red\n8,6,4,yellow\n8,6,5,blue\n8,6,6,red\n8,6,7,green\n8,7,0,red\n8,7,1,red\n8,7,2,orange\n8,7,3,red\n8,7,4,yellow\n8,7,5,orange\n8,7,6,purple\n8,7,7,purple\n9,0,0,purple\n9,0,1,red\n9,0,4,red\n9,0,5,red\n9,0,6,red\n9,1,1,red\n9,1,2,red\n9,1,3,orange\n9,1,4,purple\n9,1,6,red\n9,2,1,orange\n9,2,2,red\n9,2,4,yellow\n9,2,5,red\n9,2,6,orange\n9,3,0,orange\n9,3,2,red\n9,3,3,blue\n9,3,4,orange\n9,3,7,yellow\n9,4,0,red\n9,4,1,blue\n9,4,2,red\n9,4,3,red\n9,4,4,red\n9,4,5,yellow\n9,4,6,orange\n9,4,7,orange\n9,5,1,orange\n9,5,2,orange\n9,5,3,red\n9,5,4,purple\n9,5,5,orange\n9,5,7,blue\n9,6,0,red\n9,6,1,orange\n9,6,2,red\n9,6,4,yellow\n9,6,5,orange\n9,6,6,blue\n9,6,7,green\n9,7,0,red\n9,7,1,red\n9,7,2,red\n9,7,3,red\n9,7,4,red\n9,7,5,yellow\n9,7,6,purple\n9,7,7,red\n10,0,1,red\n10,0,2,orange\n10,0,4,red\n10,0,5,red\n10,0,6,red\n10,1,0,purple\n10,1,1,red\n10,1,2,red\n10,1,3,red\n10,1,5,red\n10,2,2,orange\n10,2,3,purple\n10,2,4,orange\n10,2,5,red\n10,2,7,yellow\n10,3,1,blue\n10,3,3,red\n10,3,5,yellow\n10,3,6,orange\n10,3,7,orange\n10,4,0,orange\n10,4,1,orange\n10,4,2,red\n10,4,3,red\n10,4,4,orange\n10,4,5,blue\n10,4,6,orange\n10,5,1,red\n10,5,2,red\n10,5,4,red\n10,5,5,yellow\n10,5,6,orange\n10,5,7,blue\n10,6,0,red\n10,6,1,red\n10,6,2,orange\n10,6,5,purple\n10,6,6,green\n10,6,7,purple\n10,7,0,red\n10,7,1,red\n10,7,2,red\n10,7,3,red\n10,7,4,red\n10,7,5,orange\n10,7,6,yellow\n10,7,7,red\n"
+    }
+   },
+   "estadisticas": {
+    "request": {
+     "method": "GET",
+     "url": "/Estadisticas?tok=89095",
+     "body": null
+    },
+    "status": 200,
+    "response": {
+     "done": true,
+     "errorMessage": null,
+     "tokenSolicitud": 89095,
+     "entidades": [
+      {
+       "nombre": "Rojo",
+       "color": "red"
+      },
+      {
+       "nombre": "Azul",
+       "color": "blue"
+      },
+      {
+       "nombre": "Verde",
+       "color": "green"
+      },
+      {
+       "nombre": "Amarillo",
+       "color": "yellow"
+      },
+      {
+       "nombre": "Naranja",
+       "color": "orange"
+      },
+      {
+       "nombre": "Morado",
+       "color": "purple"
+      }
+     ],
+     "poblacionPorPaso": [
+      {
+       "pasoTiempo": 0,
+       "color": "blue",
+       "cantidad": 12
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "green",
+       "cantidad": 12
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "orange",
+       "cantidad": 12
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "red",
+       "cantidad": 12
+      },
+      {
+       "pasoTiempo": 0,
+       "color": "yellow",
+       "cantidad": 12
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "blue",
+       "cantidad": 10
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "green",
+       "cantidad": 8
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "orange",
+       "cantidad": 12
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "red",
+       "cantidad": 13
+      },
+      {
+       "pasoTiempo": 1,
+       "color": "yellow",
+       "cantidad": 11
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "blue",
+       "cantidad": 10
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "green",
+       "cantidad": 7
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "orange",
+       "cantidad": 12
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "red",
+       "cantidad": 14
+      },
+      {
+       "pasoTiempo": 2,
+       "color": "yellow",
+       "cantidad": 9
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "blue",
+       "cantidad": 8
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "green",
+       "cantidad": 5
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "orange",
+       "cantidad": 12
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "red",
+       "cantidad": 14
+      },
+      {
+       "pasoTiempo": 3,
+       "color": "yellow",
+       "cantidad": 9
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "blue",
+       "cantidad": 8
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "green",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "orange",
+       "cantidad": 12
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "red",
+       "cantidad": 16
+      },
+      {
+       "pasoTiempo": 4,
+       "color": "yellow",
+       "cantidad": 8
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "blue",
+       "cantidad": 6
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "green",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "orange",
+       "cantidad": 12
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "red",
+       "cantidad": 16
+      },
+      {
+       "pasoTiempo": 5,
+       "color": "yellow",
+       "cantidad": 7
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "blue",
+       "cantidad": 6
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "green",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "orange",
+       "cantidad": 12
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "red",
+       "cantidad": 18
+      },
+      {
+       "pasoTiempo": 6,
+       "color": "yellow",
+       "cantidad": 5
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "blue",
+       "cantidad": 5
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "green",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "orange",
+       "cantidad": 12
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "red",
+       "cantidad": 19
+      },
+      {
+       "pasoTiempo": 7,
+       "color": "yellow",
+       "cantidad": 5
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "blue",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "green",
+       "cantidad": 2
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "orange",
+       "cantidad": 12
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "red",
+       "cantidad": 20
+      },
+      {
+       "pasoTiempo": 8,
+       "color": "yellow",
+       "cantidad": 5
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "blue",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "green",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "orange",
+       "cantidad": 12
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "red",
+       "cantidad": 23
+      },
+      {
+       "pasoTiempo": 9,
+       "color": "yellow",
+       "cantidad": 5
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "blue",
+       "cantidad": 3
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "green",
+       "cantidad": 1
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "orange",
+       "cantidad": 12
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "purple",
+       "cantidad": 4
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "red",
+       "cantidad": 23
+      },
+      {
+       "pasoTiempo": 10,
+       "color": "yellow",
+       "cantidad": 4
+      }
+     ],
+     "colorMasReproducido": "red",
+     "colorMasComio": "red",
+     "colorMasDominante": "red"
+    }
+   }
+  }
+ ],
+ "solicitudesUsuario": {
+  "request": {
+   "method": "GET",
+   "url": "/Solicitud/GetSolicitudesUsuario?nombreUsuario=demo",
+   "body": null
+  },
+  "status": 200,
+  "response": [
+   14252,
+   19755,
+   47024,
+   12504,
+   47221,
+   57254,
+   69291,
+   93020,
+   82271,
+   70860,
+   46960,
+   17748,
+   56672,
+   24630,
+   38615,
+   43650,
+   23506,
+   29888,
+   38792,
+   30440,
+   70244,
+   93963,
+   76213,
+   40577,
+   13980,
+   67759,
+   67540,
+   25262,
+   17451,
+   43863,
+   71071,
+   32688,
+   26806,
+   99859,
+   58575,
+   46306,
+   23119,
+   33370,
+   90128,
+   49992,
+   24343,
+   55248,
+   43230,
+   72351,
+   30807,
+   18125,
+   74060,
+   57142,
+   87640,
+   54615,
+   79395,
+   24235,
+   98526,
+   31629,
+   20080,
+   76494,
+   83225,
+   21264,
+   83703,
+   95850,
+   32921,
+   96982,
+   20202,
+   32890,
+   49423,
+   34575,
+   20819,
+   99599,
+   31846,
+   54782,
+   57585,
+   79702,
+   26711,
+   78520,
+   29121,
+   96376,
+   17448,
+   39372,
+   99488,
+   82986,
+   80884,
+   53812,
+   33224,
+   47812,
+   77169,
+   67022,
+   61686,
+   18074,
+   72614,
+   51770,
+   17737,
+   85030,
+   88065,
+   93423,
+   77372,
+   10117,
+   23904,
+   59137,
+   74584,
+   91479,
+   72760,
+   19497,
+   12992,
+   61961,
+   11487,
+   14342,
+   72446,
+   10814,
+   39720,
+   38383,
+   10728,
+   89095
+  ]
+ },
+ "noExiste": {
+  "resultados": {
+   "request": {
+    "method": "POST",
+    "url": "/Resultados?nombreUsuario=demo&tok=1",
+    "body": null
+   },
+   "status": 201,
+   "response": {
+    "done": false,
+    "tokenSolicitud": 1,
+    "errorMessage": "No se encontraron resultados para la solicitud y usuario especificados"
+   }
+  },
+  "estadisticas": {
+   "request": {
+    "method": "GET",
+    "url": "/Estadisticas?tok=1",
+    "body": null
+   },
+   "status": 404,
+   "response": {
+    "done": false,
+    "errorMessage": "No se encontraron estadísticas para el token 1",
+    "tokenSolicitud": 1,
+    "entidades": null,
+    "poblacionPorPaso": null,
+    "colorMasReproducido": null,
+    "colorMasComio": null,
+    "colorMasDominante": null
+   }
+  }
+ }
+}

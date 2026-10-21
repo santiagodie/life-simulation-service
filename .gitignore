@@ -228,3 +228,6 @@ $RECYCLE.BIN/
 target/
 docs/
 .m2/
+
+# Static site assembled by demo/build-site.sh
+_site/
