@@ -159,12 +159,15 @@ class DashboardControllerTest {
         java.util.Map<String, Object> queueData = new java.util.HashMap<>();
         queueData.put("messages", 7L);
         queueData.put("consumers", 2L);
+        // Same shape as GET /api/queues/{vhost}/{name}: rates are inside message_stats
+        java.util.Map<String, Object> messageStats = new java.util.HashMap<>();
         java.util.Map<String, Object> deliverDetails = new java.util.HashMap<>();
         deliverDetails.put("rate", 1.5);
-        queueData.put("deliver_get_details", deliverDetails);
+        messageStats.put("deliver_get_details", deliverDetails);
         java.util.Map<String, Object> publishDetails = new java.util.HashMap<>();
         publishDetails.put("rate", 0.8);
-        queueData.put("publish_details", publishDetails);
+        messageStats.put("publish_details", publishDetails);
+        queueData.put("message_stats", messageStats);
 
         when(mockRestTemplate.exchange(any(java.net.URI.class), any(), any(), eq(java.util.Map.class)))
                 .thenReturn(new ResponseEntity<>(queueData, HttpStatus.OK));

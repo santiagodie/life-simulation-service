@@ -70,8 +70,10 @@ public class DashboardController {
         }
 
         long queueDepth = toLong(queue, "messages");
-        double deliverRate = toRate(queue, "deliver_get_details");
-        double publishRate = toRate(queue, "publish_details");
+        // RabbitMQ nests the rates inside message_stats
+        Map<?, ?> messageStats = queue != null && queue.get("message_stats") instanceof Map<?, ?> m ? m : null;
+        double deliverRate = toRate(messageStats, "deliver_get_details");
+        double publishRate = toRate(messageStats, "publish_details");
         long consumerCount = toLong(queue, "consumers");
 
         List<ChannelInfo> channelInfos = channels == null ? List.of() : channels.stream()
