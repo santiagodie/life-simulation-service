@@ -1,408 +1,214 @@
-# Servicio Consumible — Trabajo Grupal TT1 2026
+<p align="center"><img src="assets/banner.svg" width="100%" alt="Life Simulation Service · University of La Rioja" /></p>
 
-Este proyecto es el trabajo grupal de la asignatura **Taller Transversal I: Programación y Proceso de Información** de la Universidad de La Rioja (curso 25/26). Es un servicio que gestiona solicitudes de simulación de vida artificial basada en autómatas celulares. Los usuarios pueden crear solicitudes, consultar su estado y obtener los resultados una vez procesados. El procesamiento de simulaciones se realiza de forma asíncrona mediante RabbitMQ y es ejecutado por múltiples workers en paralelo.
+<p align="center">An asynchronous artificial-life simulation service: a Spring Boot REST API queues cellular-automaton simulations in RabbitMQ, a pool of workers runs them and MySQL stores the results.</p>
 
-**Autores:**
-- Ana Nicolás Lacalzada
-- Lucas Alonso Fernández
-- Clara Hernández Calleja
-- Santiago Die Morejón
+<p align="center">
+  <img src="https://img.shields.io/badge/language-Java-C9A227?style=flat-square&labelColor=0B1F3A" alt="Language: Java" />
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-C9A227?style=flat-square&labelColor=0B1F3A" alt="License: MIT" /></a>
+  <a href="https://santiagodie.com/life-simulation-service/"><img src="https://img.shields.io/badge/live%20demo-GitHub%20Pages-C9A227?style=flat-square&labelColor=0B1F3A" alt="Live demo" /></a>
+  <a href="https://santiagodie.com/life-simulation-service/doc/"><img src="https://img.shields.io/badge/docs-Javadoc-C9A227?style=flat-square&labelColor=0B1F3A" alt="Javadoc" /></a>
+</p>
 
-**Java:** 21 · **Spring Boot:** 3.3.13
+## Table of Contents
 
----
+- [About the Project](#about-the-project)
+- [Live Demo](#live-demo)
+- [Features](#features)
+- [Built With](#built-with)
+- [How It Works](#how-it-works)
+- [API](#api)
+- [Getting Started](#getting-started)
+- [Tests and CI](#tests-and-ci)
+- [Project Structure](#project-structure)
+- [Known Limitations](#known-limitations)
+- [Team](#team)
+- [License](#license)
+- [Contact](#contact)
 
-## Índice
+## About the Project
 
-1. [Descripción](#descripción-del-sistema)
-2. [Arquitectura](#arquitectura)
-3. [Requisitos previos](#requisitos-previos)
-4. [Cómo ejecutar con Docker Compose](#cómo-ejecutar-con-docker-compose)
-5. [Endpoints de la API](#endpoints-de-la-api)
-   - [Solicitud](#solicitud)
-   - [Resultados](#resultados)
-   - [Email](#email)
-   - [Estadísticas y dashboard](#estadísticas-y-dashboard)
-6. [Documentación JavaDoc](#documentación-javadoc)
-7. [Tests y CI/CD](#tests-y-cicd)
-8. [Estructura del proyecto](#estructura-del-proyecto)
+Users submit a simulation request (a list of species and how many individuals each one starts with) and receive a token. The request is queued in RabbitMQ and picked up by one of several workers, which runs a cellular automaton on an 8×8 grid for 10 time steps: individuals move at random, eat each other according to a food chain defined by their colour, and reproduce after eating. The result and per-step population statistics are stored in MySQL, where clients can fetch them with the token.
 
----
+The service is the back end of a two-part project. The browser front end that requests simulations and replays them on a grid is **[life-simulation-web-client](https://github.com/santiagodie/life-simulation-web-client)**.
 
-## Descripción del sistema
+> This was a **team project by a group of four** (see [Team](#team)).
 
-El servicio implementa una simulación de vida artificial donde distintas especies (células) conviven en un grid de 8×8 durante 10 pasos de tiempo. Cada especie tiene un color asociado que determina su posición en la cadena alimentaria: cada color puede comerse al siguiente en la lista `rojo → azul → verde → amarillo → naranja → morado → rojo`. Las células se mueven aleatoriamente, se comen entre ellas según la jerarquía y se reproducen cuando han comido y colisionan con una de su misma especie.
+## Live Demo
 
-El flujo completo es:
+**[santiagodie.com/life-simulation-service](https://santiagodie.com/life-simulation-service/)**: the service's own web pages running as a static site (UI in Spanish, as in the original project):
 
-```
-Cliente → POST /Solicitud/Solicitar → Cola RabbitMQ → SimulationListener (worker) → SimulationService → BD
-                                                                                                ↓
-Cliente → POST /Resultados ←──────────────────────────────────────────────────────── Resultado guardado
-```
+- **Visualiser**: population charts and statistics for simulations recorded from the real service in both modes, plus new simulations run in your browser by a JavaScript port of the workers' simulation code. Given the same seed, the port produces exactly the same output as the Java code.
+- **Worker dashboard**: a replay of real `/Dashboard/Stats` snapshots recorded while 100 requests were processed by 5 workers.
 
-Hay dos modos de simulación seleccionables por variable de entorno:
+The full system (API, queue, workers and database) runs locally with Docker (see [Getting Started](#getting-started)). The Javadoc is published at **[santiagodie.com/life-simulation-service/doc](https://santiagodie.com/life-simulation-service/doc/)**.
 
-- **standard** — lógica básica de vida artificial
-- **advanced** — lógica extendida con comportamientos adicionales
+## Features
 
----
+- **REST API** generated from an OpenAPI 3 contract (`openapi.yaml`) with the delegate pattern, documented with Swagger UI.
+- **Asynchronous processing**: each request becomes a message in `simulation.queue`; five worker replicas consume it in parallel, one message at a time (`prefetch=1`).
+- **Two simulation modes**, selected with `SIMULATION_MODE`:
+  - `standard`: circular food chain red → blue → green → yellow → orange → purple → red (each colour eats the next one).
+  - `advanced`: red eats blue and green, blue and green eat yellow, yellow does not eat and red cannot be eaten; blue individuals that eat keep food to share with another blue one.
+- **Statistics** per simulation: population of each colour at every step, the colour that grew the most, the one that ate the most (estimated from the decrease of its prey under the active mode's rules) and the dominant colour at the end.
+- **Web pages** served by the API: a simulation visualiser and a live dashboard of the RabbitMQ queue and the connected workers.
+- **Stress test script** that sends 100 concurrent requests.
 
-## Arquitectura
+## Built With
 
-El proyecto está dividido en tres módulos Maven:
+- Java 21, Spring Boot 3.3 (Web, Data JPA, AMQP), Maven multi-module build
+- RabbitMQ 3 (with the management plugin), MySQL 8
+- OpenAPI Generator, SpringDoc / Swagger UI
+- JUnit 5, Mockito, H2 (tests)
+- Docker and Docker Compose
+- GitHub Actions (tests, Javadoc and GitHub Pages)
 
-```
-pom.xml (raíz)
-├── servicio-common/   # Modelos, entidades JPA, repositorios y lógica compartida
-├── servicio-api/      # Aplicación Spring Boot expuesta como API REST
-└── servicio-worker/   # Aplicación Spring Boot consumidora de la cola RabbitMQ
-```
+## How It Works
 
-### servicio-common
-
-Librería compartida entre `servicio-api` y `servicio-worker`. No genera ejecutable propio.
-
-```
-org.trabajott1
-├── configuration/        # Configuración de RabbitMQ compartida
-├── model/                # Modelos de entrada/salida de la API y mensajes de cola
-├── persistence/entity/   # Entidades JPA (tablas: solicitudes, entidades_solicitud, resultados, estadisticas_poblacion)
-├── repository/           # Repositorios Spring Data JPA
-└── service/
-    └── EstadisticasService   — cálculo y persistencia de estadísticas de simulación
-```
-
-### servicio-api
-
-Aplicación REST. Se conecta a MySQL para persistencia y a RabbitMQ para encolar solicitudes.
-
-```
-org.trabajott1
-├── ApiApplication.java
-├── RFC3339DateFormat.java
-├── api/                  # Interfaces REST y controladores (generados por OpenAPI Generator)
-│   └── impl/             # Implementaciones de los delegates + EstadisticasController
-├── configuration/        # RabbitMQ, Swagger, HomeController
-├── domain/dto/           # DTOs auxiliares
-└── service/              # EmailService, ResultadosService, SolicitudService
+```mermaid
+flowchart LR
+    C[Client] -- "POST /Solicitud/Solicitar" --> A[servicio-api]
+    A -- "token" --> C
+    A -- "SimulationMessage" --> Q[(RabbitMQ<br/>simulation.queue)]
+    Q --> W1[worker 1]
+    Q --> W2[worker ...]
+    Q --> W5[worker 5]
+    W1 & W2 & W5 -- "result + statistics" --> DB[(MySQL)]
+    C -- "POST /Resultados<br/>GET /Estadisticas" --> A
+    A --> DB
 ```
 
-### servicio-worker
+**Simulation.** Species are assigned colours in order (red, blue, green, yellow, orange, purple) and placed at random on the grid. At each step every individual moves to a random neighbouring cell. When two individuals of different species meet, the one that can eat the other according to the active mode takes the cell; if neither can, the newcomer moves to a free cell nearby. When two individuals of the same species meet and one of them has eaten, a new individual is born in a free adjacent cell.
 
-Aplicación consumidora de la cola. Se despliegan **5 réplicas** en paralelo para procesar simulaciones concurrentemente.
+**Result format.** The result stored for each request is plain text: the first line is the grid size and every following line is `time,row,column,colour` for one individual at one step.
 
+**Modules.** `servicio-common` holds the JPA entities, repositories, message models and the statistics service; `servicio-api` is the REST application; `servicio-worker` is the RabbitMQ consumer that runs the simulations. The API and the workers are built from the same multi-stage `Dockerfile`.
+
+## API
+
+| Method | Path | Description |
+| --- | --- | --- |
+| `POST` | `/Solicitud/Solicitar?nombreUsuario=` | Create a simulation request; returns its token |
+| `GET` | `/Solicitud/ComprobarSolicitud?nombreUsuario=&tok=` | Request status: `[1, 0]` finished, `[0, 1]` in progress, `[0, 0]` not found |
+| `GET` | `/Solicitud/GetSolicitudesUsuario?nombreUsuario=` | Tokens of a user's requests |
+| `POST` | `/Resultados?nombreUsuario=&tok=` | Result of a finished simulation |
+| `GET` | `/Estadisticas?tok=` | Aggregated statistics of a simulation (`404` if there are none) |
+| `GET` | `/Dashboard/Stats` | Queue depth, publish/deliver rates and active worker channels |
+| `POST` | `/Email?emailAddress=&message=` | Email notification (see [Known Limitations](#known-limitations)) |
+
+Example request body for `/Solicitud/Solicitar`:
+
+```json
+{
+  "cantidadesIniciales": [10, 5, 8],
+  "nombreEntidades": ["Rabbits", "Foxes", "Eagles"]
+}
 ```
-org.trabajott1
-├── WorkerApplication.java
-├── configuration/        # RabbitMQConfig del worker
-└── service/
-    ├── ISimulationService          — interfaz del motor de simulación
-    ├── StandardSimulationService   — lógica básica
-    ├── AdvancedSimulationService   — lógica extendida
-    └── SimulationListener          — consumidor RabbitMQ, selecciona el modo por env var
-```
 
-**Tecnologías principales:**
+## Getting Started
 
-| Componente | Tecnología |
-|---|---|
-| Framework | Spring Boot 3.3.13 |
-| API REST | Spring MVC + OpenAPI Generator 7.21.0 |
-| Documentación API | SpringDoc / Swagger UI 2.6.0 |
-| Persistencia | Spring Data JPA + Hibernate + MySQL 8 |
-| Mensajería asíncrona | RabbitMQ |
-| Build | Maven (multi-módulo) |
-| Contenedores | Docker + Docker Compose |
+### Prerequisites
 
----
+- Docker with Docker Compose
 
-## Requisitos previos
+To build or run the tests outside Docker you also need JDK 21 (the Maven Wrapper is included).
 
-- **Docker** y **Docker Compose** instalados
-- Java 21 y Maven (solo son necesarios para ejecutar los tests o generar el JavaDoc localmente)
-
-### Esquema de base de datos
-
-El fichero `init.sql` en la raíz del proyecto inicializa automáticamente el esquema de MySQL al arrancar el contenedor. Crea cuatro tablas:
-
-| Tabla | Descripción |
-|---|---|
-| `solicitudes` | Una fila por solicitud; almacena usuario, token, estado y fechas |
-| `entidades_solicitud` | Entidades (especies) asociadas a cada solicitud con sus cantidades iniciales |
-| `resultados` | Resultado serializado de la simulación (relación 1:1 con `solicitudes`) |
-| `estadisticas_poblacion` | Población por color y paso de tiempo de cada simulación |
-
-Docker Compose monta este fichero automáticamente — no es necesario ejecutarlo a mano.
-
----
-
-## Cómo ejecutar con Docker Compose
-
-El `docker-compose.yml` levanta cuatro servicios: MySQL 8, RabbitMQ, el API y 5 réplicas del worker. Los servicios de aplicación esperan a que la base de datos y el broker estén sanos antes de arrancar.
+### Run with Docker Compose
 
 ```bash
+git clone https://github.com/santiagodie/life-simulation-service.git
+cd life-simulation-service
 docker compose up --build
 ```
 
-Eso es todo. Una vez arrancado:
-
-| Servicio | URL |
-|---|---|
-| API REST | `http://localhost:8080` |
-| Swagger UI | `http://localhost:8080/swagger-ui.html` |
-| OpenAPI spec (JSON) | `http://localhost:8080/v3/api-docs` |
-| Consola de RabbitMQ | `http://localhost:15672` |
-
-Para cambiar el modo de simulación de los workers (por defecto `standard`):
+This starts MySQL, RabbitMQ, the API and five workers in `standard` mode. To use the advanced rules:
 
 ```bash
 SIMULATION_MODE=advanced docker compose up --build
 ```
 
-Para parar y eliminar los contenedores:
+| Service | URL |
+| --- | --- |
+| Swagger UI | `http://localhost:8080/swagger-ui.html` |
+| Simulation visualiser | `http://localhost:8080/simulacion.html` |
+| Worker dashboard | `http://localhost:8080/dashboard.html` |
+| RabbitMQ management | `http://localhost:15672` (guest / guest) |
+
+The credentials in `docker-compose.yml` are local development defaults.
+
+To send 100 concurrent requests and watch them on the dashboard:
 
 ```bash
-docker compose down
+bash stressTest.sh
 ```
 
-Para parar y además borrar los datos persistentes de MySQL:
+To use the service from a browser front end, start [life-simulation-web-client](https://github.com/santiagodie/life-simulation-web-client) on port 8081.
+
+### Rebuild the demo site
 
 ```bash
-docker compose down -v
+./mvnw -B install -DskipTests
+./mvnw -B javadoc:aggregate
+bash demo/build-site.sh _site
 ```
 
----
-
-## Endpoints de la API
-
-### Solicitud
-
-| Método | Ruta | Descripción |
-|---|---|---|
-| `POST` | `/Solicitud/Solicitar` | Crea una nueva solicitud de simulación |
-| `GET` | `/Solicitud/ComprobarSolicitud` | Comprueba el estado de una solicitud |
-| `GET` | `/Solicitud/GetSolicitudesUsuario` | Lista todos los tokens de solicitudes de un usuario |
-
-**Ejemplo — Crear solicitud:**
-
-```http
-POST /Solicitud/Solicitar?nombreUsuario=alice
-Content-Type: application/json
-
-{
-  "cantidadesIniciales": [10, 5, 8],
-  "nombreEntidades": ["Conejos", "Zorros", "Águilas"]
-}
-```
-
-Respuesta (201):
-```json
-{
-  "done": true,
-  "tokenSolicitud": 47382,
-  "errorMessage": null,
-  "data": true
-}
-```
-
-**Ejemplo — Comprobar estado:**
-
-```http
-GET /Solicitud/ComprobarSolicitud?nombreUsuario=alice&tok=47382
-```
-
-Respuesta: `[1, 0]` = finalizada · `[0, 1]` = en proceso · `[0, 0]` = no encontrada
-
----
-
-### Resultados
-
-| Método | Ruta | Descripción |
-|---|---|---|
-| `POST` | `/Resultados` | Obtiene los resultados de una simulación finalizada |
-
-**Ejemplo:**
-
-```http
-POST /Resultados?nombreUsuario=alice&tok=47382
-```
-
-Respuesta (201):
-```json
-{
-  "done": true,
-  "tokenSolicitud": 47382,
-  "data": "8\n0,0,3,red\n0,1,5,blue\n...",
-  "errorMessage": null
-}
-```
-
-El campo `data` contiene la simulación serializada. El formato de cada línea (tras la primera que indica el tamaño del grid) es:
-
-```
-tiempo,fila,columna,color
-```
-
----
-
-### Email
-
-| Método | Ruta | Descripción |
-|---|---|---|
-| `POST` | `/Email` | Envía un correo electrónico |
-
----
-
-### Estadísticas y dashboard
-
-#### Endpoints de la API
-
-| Método | Ruta | Descripción |
-|---|---|---|
-| `GET` | `/Estadisticas` | Estadísticas agregadas de una simulación finalizada |
-| `GET` | `/Dashboard/Stats` | Métricas de RabbitMQ en tiempo real (cola + canales) |
-
-**Ejemplo — Obtener estadísticas:**
-
-```http
-GET /Estadisticas?tok=47382
-```
-
-Respuesta (200):
-```json
-{
-  "done": true,
-  "errorMessage": null,
-  "tokenSolicitud": 47382,
-  "entidades": [
-    { "nombre": "Conejos", "color": "red" },
-    { "nombre": "Zorros",  "color": "blue" }
-  ],
-  "poblacionPorPaso": [
-    { "pasoTiempo": 0, "color": "red",  "cantidad": 10 },
-    { "pasoTiempo": 0, "color": "blue", "cantidad": 5  }
-  ],
-  "colorMasReproducido": "red",
-  "colorMasComio":       "blue",
-  "colorMasDominante":   "red"
-}
-```
-
-Devuelve `404` con `done: false` y `errorMessage` si el token no existe o la simulación no ha generado datos todavía.
-
-**Ejemplo — Métricas de RabbitMQ:**
-
-```http
-GET /Dashboard/Stats
-```
-
-Respuesta (200):
-```json
-{
-  "queueDepth":    3,
-  "deliverRate":   1.2,
-  "publishRate":   0.8,
-  "consumerCount": 5,
-  "channels": [
-    { "connectionName": "172.20.0.4:38012 -> 172.20.0.3:5672", "consumerCount": 1, "unackedCount": 0 }
-  ]
-}
-```
-
-Los datos provienen de la API de gestión de RabbitMQ (`/api/queues` y `/api/channels`). Si el broker no está disponible, los campos numéricos se devuelven a cero sin propagar el error.
-
-#### Páginas web estáticas
-
-Además de los endpoints JSON, el servicio sirve dos páginas HTML estáticas que consumen la API directamente desde el navegador:
-
-| Página | URL | Qué muestra |
-|---|---|---|
-| Visualizador de simulación | `http://localhost:8080/simulacion.html` | Animación paso a paso del grid 8×8, gráfica de evolución de población por color y resumen de estadísticas. Requiere introducir el token de una solicitud finalizada. |
-| Dashboard de workers | `http://localhost:8080/dashboard.html` | Métricas en tiempo real de RabbitMQ: profundidad de la cola, tasas de publicación/entrega y lista de workers (canales) activos. Se auto-refresca cada pocos segundos. |
-
----
-
-## Documentación JavaDoc
-
-Todos los paquetes, clases, interfaces, constructores y métodos públicos están documentados con JavaDoc.
-
-La documentación se publica automáticamente en GitHub Pages al hacer push a la rama `stable`:
-
-**[https://santiagodie.com/life-simulation-service/doc/](https://santiagodie.com/life-simulation-service/doc/)**
-
----
-
-## Tests y CI/CD
-
-### Tipos de tests incluidos
-
-| Tipo | Clases | Qué verifica |
-|---|---|---|
-| Unitarios (servicio) | `EmailServiceTest`, `EmailServiceExtendedTest`, `ResultadosServiceTest`, `ResultadosServiceExtendedTest`, `SolicitudServiceTest`, `SolicitudServiceExtendedTest`, `SimulationServiceTest`, `SimulationListenerTest`, `SimulationListenerExtendedTest`, `AdvancedSimulationServiceTest`, `AdvancedSimulationServiceFlowTest`, `EstadisticasServiceTest` | Validación de parámetros, lógica de negocio, manejo de errores |
-| Unitarios (API) | `EmailApiDelegateImplTest`, `ResultadosApiDelegateImplTest`, `SolicitudApiDelegateImplTest`, `EstadisticasControllerTest`, `DashboardControllerTest`, `HomeControllerTest` | Códigos HTTP devueltos según el resultado del servicio |
-| Unitarios (modelo) | `SolicitudDeserializerTest`, `SolicitudEntityTest` | Deserialización y comportamiento de entidades del modelo |
-| Regresión | `SimulationServiceReproductionTest`, `StandardSimulationServiceBorderTest` | Comportamiento del motor de simulación (las células no desaparecen incorrectamente, casos límite de borde) |
-| Integración | `PersistenceIntegrationTest` | Flujo completo de persistencia + RabbitMQ |
-
-### Script de stress test
-
-El script `stressTest.sh` en la raíz del proyecto lanza 100 solicitudes en paralelo contra la API local para comprobar el comportamiento del sistema bajo carga. Cada solicitud genera entre 2 y 6 entidades con cantidades aleatorias.
+## Tests and CI
 
 ```bash
-chmod +x stressTest.sh && ./stressTest.sh
+./mvnw test
 ```
 
-Requiere que la API esté corriendo en `http://localhost:8080` (por ejemplo con `docker compose up`).
+The suite covers the services, the API delegates and controllers, the simulation engine (including regression and border cases) and persistence. Tests run against an in-memory H2 database, so no MySQL or RabbitMQ is needed.
 
-### Flujo de ramas y workflows de CI/CD
+GitHub Actions workflows:
 
-El proyecto tiene tres workflows de GitHub Actions que definen un pipeline de promoción automática:
+| Workflow | Trigger | What it does |
+| --- | --- | --- |
+| Test and Promote | push to `main` | Runs the tests and fast-forwards `early` to `main` if they pass |
+| Validate Javadoc | push to `early` | Checks that the Javadoc builds |
+| Build and Deploy Pages | after Test and Promote succeeds on `main`, or manually | Builds the demo and the Javadoc and publishes them to GitHub Pages |
 
-```
-main ──(push)──► [Test and Promote] ──tests OK──► early ──(push)──► [Validate Javadoc]
-                                                                           │
-stable ◄──────────────────────────── (merge manual) ──────────────────────┘
-  │
-  └──(push)──► [Build and Deploy Javadoc] ──► GitHub Pages
-```
-
-| Workflow | Se activa en | Qué hace |
-|---|---|---|
-| **Test and Promote** | Push a `main` | Ejecuta los tests con MySQL. Si pasan, avanza la rama `early` hasta `main` con fast-forward |
-| **Validate Javadoc** | Push a `early` | Valida que el JavaDoc se genera sin errores |
-| **Build and Deploy Javadoc** | Push a `stable` | Genera el JavaDoc y lo publica en GitHub Pages |
-
----
-
-## Estructura del proyecto
+## Project Structure
 
 ```
-pom.xml                          # POM raíz multi-módulo
-Dockerfile                       # Build multi-stage: target api / target worker
-docker-compose.yml               # MySQL + RabbitMQ + api + 5x worker
-init.sql                         # Esquema inicial de MySQL (montado automáticamente por Docker)
-stressTest.sh                    # Script de stress test: 100 solicitudes en paralelo
-servicio-common/
-└── src/main/java/org/trabajott1/
-    ├── configuration/           # RabbitMQConfig compartida
-    ├── model/                   # Modelos y DTOs de mensajería
-    ├── persistence/entity/      # Entidades JPA
-    ├── repository/              # Repositorios Spring Data
-    └── service/                 # EstadisticasService
+pom.xml                    # Parent POM (modules: common, api, worker)
+Dockerfile                 # Multi-stage build with targets api and worker
+docker-compose.yml         # MySQL + RabbitMQ + API + 5 workers
+init.sql                   # MySQL schema, loaded by the MySQL container
+stressTest.sh              # 100 concurrent simulation requests
+servicio-common/           # JPA entities, repositories, message models, EstadisticasService
 servicio-api/
-├── src/main/java/org/trabajott1/
-│   ├── ApiApplication.java
-│   ├── api/                     # Interfaces y controladores REST
-│   │   └── impl/                # Delegates + EstadisticasController + DashboardController
-│   ├── configuration/           # RabbitMQ, Swagger, HomeController
-│   ├── domain/dto/              # DTOs auxiliares
-│   └── service/                 # EmailService, ResultadosService, SolicitudService
-└── src/test/                    # Tests unitarios e integración del API
-servicio-worker/
-├── src/main/java/org/trabajott1/
-│   ├── WorkerApplication.java
-│   ├── configuration/           # RabbitMQConfig del worker
-│   └── service/                 # SimulationListener, Standard/AdvancedSimulationService
-└── src/test/                    # Tests unitarios del motor de simulación
+├── src/main/java/...      # REST controllers (OpenAPI delegates), services, RabbitMQ and Swagger config
+└── src/main/resources/
+    ├── openapi.yaml       # API contract
+    └── static/            # simulacion.html (visualiser) and dashboard.html
+servicio-worker/           # SimulationListener and the standard / advanced simulation services
+demo/                      # Static demo for GitHub Pages: demo layer, JavaScript port, recorded data
 ```
+
+## Known Limitations
+
+- `/Email` validates the address but does not send anything; there is no mail server behind it.
+- Grid size (8×8) and the number of steps (10) are constants in the simulation services.
+- The simulation mode applies to the whole deployment: the API and every worker must use the same `SIMULATION_MODE`.
+- Simulations are not seeded, so the same request gives a different result each time. The demo's JavaScript port accepts a seed to make results reproducible.
+
+## Team
+
+- Ana Nicolás Lacalzada ([@annicol8](https://github.com/annicol8))
+- Lucas Alonso Fernández ([@lucasaf04](https://github.com/lucasaf04))
+- Clara Hernández Calleja ([@clhernca](https://github.com/clhernca))
+- Santiago Die Morejón ([@santiagodie](https://github.com/santiagodie))
+
+See also [CONTRIBUTORS.md](CONTRIBUTORS.md).
+
+## License
+
+Released under the [MIT License](LICENSE).
+
+## Contact
+
+Santiago Die · [GitHub](https://github.com/santiagodie) · [LinkedIn](https://www.linkedin.com/in/santiago-die-morejon)
+
+---
+
+Built for the Cross-disciplinary Workshop I: Programming and Information Processing course at the University of La Rioja (2025–26).
