@@ -38,7 +38,7 @@ The service is the back end of a two-part project. The browser front end that re
 **[santiagodie.com/life-simulation-service](https://santiagodie.com/life-simulation-service/)**: the service's own web pages running as a static site (UI in Spanish, as in the original project):
 
 - **Visualiser**: population charts and statistics for simulations recorded from the real service in both modes, plus new simulations run in your browser by a JavaScript port of the workers' simulation code. Given the same seed, the port produces exactly the same output as the Java code.
-- **Worker dashboard**: a replay of real `/Dashboard/Stats` snapshots recorded while 100 requests were processed by 5 workers.
+- **Worker dashboard**: a replay of real `/Dashboard/Stats` snapshots recorded while 5 workers drained 220 requests sent over 30 s.
 
 The full system (API, queue, workers and database) runs locally with Docker (see [Getting Started](#getting-started)). The Javadoc is published at **[santiagodie.com/life-simulation-service/doc](https://santiagodie.com/life-simulation-service/doc/)**.
 
@@ -156,6 +156,8 @@ bash demo/build-site.sh _site
 ```bash
 ./mvnw test
 ```
+
+108 tests across the three modules (common 23, API 47, worker 38).
 
 The suite covers the services, the API delegates and controllers, the simulation engine (including regression and border cases) and persistence. Tests run against an in-memory H2 database, so no MySQL or RabbitMQ is needed.
 
